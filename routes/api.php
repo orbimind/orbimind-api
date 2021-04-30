@@ -1,18 +1,14 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->get("/auth/me", function () {
-    return auth()->user();
-});
-
 Route::prefix('auth')->group(function () {
-    Route::post('/register', 'App\Http\Controllers\AuthController@register');
-    Route::post('/login', 'App\Http\Controllers\AuthController@login');
-    Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
-    Route::post('/password-reset', 'App\Http\Controllers\AuthController@password');
-    Route::post('/password-reset/{token}', 'App\Http\Controllers\AuthController@passwordtoken');
+    Route::get('/me', 'App\Http\Controllers\AuthController@User')->middleware('auth');
+    Route::post('/register', 'App\Http\Controllers\AuthController@Register');
+    Route::post('/login', 'App\Http\Controllers\AuthController@Login');
+    Route::post('/logout', 'App\Http\Controllers\AuthController@Logout');
+    Route::post('/password-reset', 'App\Http\Controllers\ForgotPasswordController@ForgotPassword');
+    Route::post('/password-reset/{token}', 'App\Http\Controllers\ForgotPasswordController@ResetPassword');
 });
 
 // Users Entity

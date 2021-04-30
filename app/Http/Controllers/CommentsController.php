@@ -14,6 +14,10 @@ class CommentsController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'content' => 'required|string'
+        ]);
         return Comments::create($request->all());
     }
 

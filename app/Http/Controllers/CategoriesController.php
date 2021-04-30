@@ -14,6 +14,10 @@ class CategoriesController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string',
+            'description' => 'required|string'
+        ]);
         return Categories::create($request->all());
     }
 

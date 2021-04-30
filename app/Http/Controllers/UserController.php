@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Users;
 use Illuminate\Foundation\Auth\User;
 
 class UserController extends Controller
@@ -26,6 +25,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'username' => 'required|string',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|min:8'
+        ]);
         return User::create($request->all());
     }
 
@@ -60,7 +65,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data =User::find($id);
+        $data = User::find($id);
         $data->update($request->all());
         return $data;
     }

@@ -14,6 +14,12 @@ class PostsController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'user_id' => 'required|integer',
+            'title' => 'required|string',
+            'content' => 'required|string',
+            'category_id' => 'required|integer'
+        ]);
         return Posts::create($request->all());
     }
 
