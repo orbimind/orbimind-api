@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 use App\Models\User;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use PhpParser\Node\Expr\FuncCall;
 
 class AuthController extends Controller
 {
@@ -20,50 +22,69 @@ class AuthController extends Controller
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password'))
             ]);
-
-            return $user;
         }catch (\Exception $exception) {
             return response([
                 'message' => $exception->getMessage()
             ], 400);
         }
+
+        return $user;
     }
 
     public function Login(LoginRequest $request)
     {
         try{
             $credentials = $request->only(['username', 'password']);
-            if(Auth::attempt($credentials)) {
-                $user = Auth::user();
-                $token = Auth::attempt($credentials);
+            if(JWTAuth::attempt($credentials)) {
+                $user = JWTAuth::user();
+                $token = JWTAuth::attempt($credentials);
 
                 return response([
                     'message' => 'success',
                     'token' => $token,
                     'token_type' => 'bearer',
-                    'expires_in' => auth()->factory()->getTTL() * 60,
+                    'expires_in' => JWTAuth::factory()->getTTL(),
                     'user' => $user
                 ]);
             }
 
             return response([
-                'message' => 'Invalid password!'
+                'message' => 'Incorrect password!'
             ], 400);
-        }catch (\Exception $exception) {
+        }catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $exception) {
             return response([
                 'message' => $exception->getMessage()
-            ], 400);
+            ], 401);
         }
     }
 
-    public function Logout()
+    public function logout()
     {
-        Auth::logout();
+        try {
+            JWTAuth::invalidate(JWTAuth::getToken());
+        } catch(\Tymon\JWTAuth\Exceptions\TokenInvalidException $exception) {
+            return response(['error' => $exception->getMessage(), 401]);
+        }
+
         return response(['message' => 'Successfully logged out']);
     }
 
     public function user() {
-        return Auth::user();
+        try {
+            $user = JWTAuth::user();
+        } catch(\Tymon\JWTAuth\Exceptions\TokenInvalidException $exception) {
+            return response(['error' => $exception->getMessage(), 401]);
+        }
+        return $user;
     }
 
+    public function refresh() {
+        try {
+            $newToken = JWTAuth::refresh(JWTAuth::getToken());
+        } catch(\Tymon\JWTAuth\Exceptions\TokenInvalidException $exception) {
+            return response(['error' => $exception->getMessage(), 401]);
+        }
+
+        return response(['token' => $newToken]);
+    }
 }
