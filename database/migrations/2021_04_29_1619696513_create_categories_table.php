@@ -9,9 +9,12 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';
             $table->id();
-            $table->string('title', 32);
-            $table->string('description', 256);
+            $table->string('title', 32)->charset('utf8')->collation('utf8_general_ci');
+            $table->string('description', 256)->charset('utf8')->collation('utf8_general_ci');
 
             $table->timestamps();
         });

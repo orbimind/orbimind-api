@@ -41,12 +41,12 @@ class CategoriesController extends Controller
 
     public function showCategories($post_id)
     {
-        if (!$data =  DB::table('posts')->where('id', $post_id)->get()->toArray()) {
+        if (!$data =  DB::table('posts')->where('id', $post_id)->first()) {
             return response([
                 'message' => 'Invalid post!'
             ], 404);
         }
 
-        return $data;
+        return response($data->category_id);
     }
 }

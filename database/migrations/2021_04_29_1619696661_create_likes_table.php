@@ -9,13 +9,16 @@ class CreateLikesTable extends Migration
     public function up()
     {
         Schema::create('likes', function (Blueprint $table) {
-		$table->id();
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->timestamp('date')->useCurrent();
             $table->unsignedBigInteger('post_id');
-            $table->enum('type',['like','dislike']);
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->enum('type', ['like', 'dislike'])->charset('latin1')->collation('latin1_general_ci');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

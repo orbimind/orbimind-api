@@ -9,15 +9,17 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('title', 32);
+            $table->string('title', 32)->charset('utf8')->collation('utf8_general_ci');
             $table->timestamp('date')->useCurrent();
             $table->boolean('status')->default(TRUE);
-            $table->string('content', 4096);
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->string('content', 4096)->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->json('category_id');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

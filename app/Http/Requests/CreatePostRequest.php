@@ -17,7 +17,7 @@ class CreatePostRequest extends FormRequest
             'user_id' => 'required|integer',
             'title' => 'required|string',
             'content' => 'required|string',
-            'category_id' => 'required|integer'
+            'category_id' => 'required|array'
         ];
     }
 }

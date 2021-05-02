@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS usof;
 CREATE USER IF NOT EXISTS 'paxanddos'@'localhost' IDENTIFIED WITH mysql_native_password BY 'securepass';
 GRANT ALL ON *.* TO 'paxanddos'@'localhost' WITH GRANT OPTION;
 
-USE usof;
+-- USE usof;
 -- CREATE TABLE usof.users (
 --     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 --     `username` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL UNIQUE,

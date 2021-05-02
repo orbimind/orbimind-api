@@ -24,6 +24,6 @@ class Posts extends Model
         'date' => 'timestamp',
         'status' => 'boolean',
         'content' => 'string',
-        'category_id' => 'integer'
+        'category_id' => 'array'
     ];
 }
