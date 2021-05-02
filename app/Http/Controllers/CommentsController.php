@@ -7,9 +7,9 @@ use App\Models\Comments;
 
 class CommentsController extends Controller
 {
-    public function index()
+    public function show($id)
     {
-        return Comments::all();
+        return Comments::find($id);
     }
 
     public function store(Request $request)
@@ -19,11 +19,6 @@ class CommentsController extends Controller
             'content' => 'required|string'
         ]);
         return Comments::create($request->all());
-    }
-
-    public function show($id)
-    {
-        return Comments::find($id);
     }
 
     public function update(Request $request, $id)
@@ -36,5 +31,21 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         return Comments::destroy($id);
+    }
+
+    public function showComments($post_id)
+    {
+        if (!$data =  DB::table('comments')->where('post_id', $post_id)->get()->toArray()) {
+            return response([
+                'message' => 'Invalid post or no comments'
+            ], 404);
+        }
+
+        return $data;
+    }
+
+    public function createComment(Request $request, $post_id)
+    {
+        # code...
     }
 }

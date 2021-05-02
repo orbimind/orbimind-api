@@ -19,10 +19,9 @@ class ForgotPasswordController extends Controller
         $token = Str::random(10);
 
         try {
-            if(DB::table('password_resets')->exists('email', $email)){
+            if (DB::table('password_resets')->exists('email', $email)) {
                 DB::table('password_resets')->where('email', $email)->update(['token' => $token]);
-            }
-            else {
+            } else {
                 DB::table('password_resets')->insert([
                     'email' => $email,
                     'token' => $token
@@ -30,7 +29,7 @@ class ForgotPasswordController extends Controller
             }
 
             $data = [
-                'link'=>URL::current().'/'.$token,
+                'link' => URL::current() . '/' . $token,
             ];
             $user['email'] = $email;
             Mail::send('forgot', $data, function ($message) use ($user) {
@@ -39,7 +38,7 @@ class ForgotPasswordController extends Controller
             });
 
             return response([
-                'message' => 'Password reset confirmation sent to '.$email.'!'
+                'message' => 'Password reset confirmation sent to ' . $email . '!'
             ]);
         } catch (\Exception $exception) {
             return response([
@@ -51,14 +50,14 @@ class ForgotPasswordController extends Controller
     public function ResetPassword(ResetPasswordRequest $request, $token)
     {
         try {
-            if(!$data = DB::table('password_resets')->where('token', $token)->first()){
+            if (!$data = DB::table('password_resets')->where('token', $token)->first()) {
                 return response([
                     'message' => 'Invalid token!'
                 ], 400);
             }
 
             /** @var User $user */
-            if(!$user = User::where('email', $data->email)->first()) {
+            if (!$user = User::where('email', $data->email)->first()) {
                 return response([
                     'message' => 'User does not exist!'
                 ], 404);
@@ -68,9 +67,9 @@ class ForgotPasswordController extends Controller
             $user->save();
 
             DB::table('password_resets')->where('email', $data->email)->delete();
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             return response([
-                'message' => 'Error while processing data'
+                'message' => $exception->getMessage()
             ], 400);
         }
 

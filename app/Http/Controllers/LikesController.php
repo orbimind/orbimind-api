@@ -12,30 +12,24 @@ class LikesController extends Controller
         return Likes::all();
     }
 
-    public function store(Request $request)
+    public function showLikes($post_id)
     {
-        $request->validate([
-            'user_id' => 'required|integer',
-            'post_id' => 'required|integer',
-            'content' => 'required|string'
-        ]);
-        return Likes::create($request->all());
-    }
+        if (!$data =  DB::table('likes')->where('post_id', $post_id)->get()->toArray()) {
+            return response([
+                'message' => 'Invalid post or no likes'
+            ], 404);
+        }
 
-    public function show($id)
-    {
-        return Likes::find($id);
-    }
-
-    public function update(Request $request, $id)
-    {
-        $data = Likes::find($id);
-        $data->update($request->all());
         return $data;
     }
 
-    public function destroy($id)
+    public function createLike($post_id)
     {
-        return Likes::destroy($id);
+        # code...
+    }
+
+    public function deleteLike($post_id)
+    {
+        # code...
     }
 }

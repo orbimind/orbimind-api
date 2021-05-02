@@ -12,16 +12,24 @@ Route::prefix('auth')->group(function () {
     Route::post('/password-reset/{token}', 'App\Http\Controllers\ForgotPasswordController@ResetPassword');
 });
 
-// Users Entity
 Route::apiResource('users', 'App\Http\Controllers\UserController');
-Route::post('users/avatar', 'App\Http\Controllers\UserController@uploadAvatar');
+Route::prefix('users')->group(function () {
+    Route::post('/avatar', 'App\Http\Controllers\UserController@uploadAvatar');
+});
 
-// Posts Entity
 Route::apiResource('posts', 'App\Http\Controllers\PostsController');
+Route::prefix('posts')->group(function () {
+    Route::get('/{post_id}/categories', 'App\Http\Controllers\CategoriesController@showCategories');
+    Route::get('/{post_id}/comments', 'App\Http\Controllers\CommentsController@showComments');
+    Route::post('/{post_id}/comments', 'App\Http\Controllers\CommentsController@createComment');
+    Route::get('/{post_id}/like', 'App\Http\Controllers\LikesController@showLikes');
+    Route::post('/{post_id}/like', 'App\Http\Controllers\LikesController@createLike');
+    Route::delete('/{post_id}/like', 'App\Http\Controllers\LikesController@deleteLike');
+});
 
-// Categories Entity
 Route::apiResource('categories', 'App\Http\Controllers\CategoriesController');
+Route::prefix('categories')->group(function () {
+    Route::get('/{category_id}/posts', 'App\Http\Controllers\PostsController@showPosts');
+});
 
-// Comments Entity
 Route::apiResource('comments', 'App\Http\Controllers\CommentsController');
-

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 
@@ -21,20 +22,31 @@ class CategoriesController extends Controller
         return Categories::create($request->all());
     }
 
-    public function show($id)
+    public function show($category_id)
     {
-        return Categories::find($id);
+        return Categories::find($category_id);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $category_id)
     {
-        $data = Categories::find($id);
+        $data = Categories::find($category_id);
         $data->update($request->all());
         return $data;
     }
 
-    public function destroy($id)
+    public function destroy($category_id)
     {
-        return Categories::destroy($id);
+        return Categories::destroy($category_id);
+    }
+
+    public function showCategories($post_id)
+    {
+        if (!$data =  DB::table('posts')->where('id', $post_id)->get()->toArray()) {
+            return response([
+                'message' => 'Invalid post!'
+            ], 404);
+        }
+
+        return $data;
     }
 }
