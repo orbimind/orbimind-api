@@ -14,7 +14,7 @@ class CreatePostsTable extends Migration
             $table->collation = 'utf8_general_ci';
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('title', 32)->charset('utf8')->collation('utf8_general_ci');
+            $table->string('title', 64)->charset('utf8')->collation('utf8_general_ci');
             $table->timestamp('date')->useCurrent();
             $table->boolean('status')->default(TRUE);
             $table->string('content', 4096)->charset('utf8mb4')->collation('utf8mb4_general_ci');
