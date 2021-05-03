@@ -17,10 +17,7 @@ class User extends Authenticable implements JWTSubject
         'username',
         'password',
         'name',
-        'email',
-        'picture',
-        'rating',
-        'role'
+        'email'
     ];
 
     protected $hidden = [
@@ -32,10 +29,7 @@ class User extends Authenticable implements JWTSubject
         'username' => 'string',
         'password' => 'string',
         'name' => 'string',
-        'email' => 'string',
-        'picture' => 'integer',
-        'rating' => 'integer',
-        'role' => 'string'
+        'email' => 'string'
     ];
 
     public function getJWTIdentifier()

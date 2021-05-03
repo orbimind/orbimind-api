@@ -8,8 +8,8 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', 'App\Http\Controllers\AuthController@Login');
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
     Route::get('/refresh', 'App\Http\Controllers\AuthController@refresh');
-    Route::post('/password-reset', 'App\Http\Controllers\ForgotPasswordController@ForgotPassword');
-    Route::post('/password-reset/{token}', 'App\Http\Controllers\ForgotPasswordController@ResetPassword');
+    Route::post('/password-reset', 'App\Http\Controllers\PasswordResetsController@ForgotPassword');
+    Route::post('/password-reset/{token}', 'App\Http\Controllers\PasswordResetsController@ResetPassword');
 });
 
 Route::apiResource('users', 'App\Http\Controllers\UserController');
@@ -22,9 +22,9 @@ Route::prefix('posts')->group(function () {
     Route::get('/{post_id}/categories', 'App\Http\Controllers\CategoriesController@showCategories');
     Route::get('/{post_id}/comments', 'App\Http\Controllers\CommentsController@showComments');
     Route::post('/{post_id}/comments', 'App\Http\Controllers\CommentsController@createComment');
-    Route::get('/{post_id}/like', 'App\Http\Controllers\LikesController@showLikes');
-    Route::post('/{post_id}/like', 'App\Http\Controllers\LikesController@createLike');
-    Route::delete('/{post_id}/like', 'App\Http\Controllers\LikesController@deleteLike');
+    Route::get('/{post_id}/like', 'App\Http\Controllers\LikeController@showPostLikes');
+    Route::post('/{post_id}/like', 'App\Http\Controllers\LikeController@createPostLike');
+    Route::delete('/{post_id}/like', 'App\Http\Controllers\LikeController@deletePostLike');
 });
 
 Route::apiResource('categories', 'App\Http\Controllers\CategoriesController');
@@ -33,3 +33,8 @@ Route::prefix('categories')->group(function () {
 });
 
 Route::apiResource('comments', 'App\Http\Controllers\CommentsController');
+Route::prefix('comments')->group(function () {
+    Route::get('/{comment_id}/like', 'App\Http\Controllers\LikeController@showCommentLikes');
+    Route::post('/{comment_id}/like', 'App\Http\Controllers\LikeController@createCommentLike');
+    Route::delete('/{comment_id}/like', 'App\Http\Controllers\LikeController@deleteCommentLike');
+});

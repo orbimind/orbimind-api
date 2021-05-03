@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS usof;
 CREATE DATABASE IF NOT EXISTS usof;
 
 CREATE USER IF NOT EXISTS 'paxanddos'@'localhost' IDENTIFIED WITH mysql_native_password BY 'securepass';

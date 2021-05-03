@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
+use App\Models\PasswordResets;
 use Illuminate\Support\Str;
 use App\Models\User;
-use Mail;
 
-class ForgotPasswordController extends Controller
+class PasswordResetsController extends Controller
 {
     public function ForgotPassword(ForgotPasswordRequest $request)
     {
@@ -19,10 +19,10 @@ class ForgotPasswordController extends Controller
         $token = Str::random(10);
 
         try {
-            if (DB::table('password_resets')->exists('email', $email)) {
-                DB::table('password_resets')->where('email', $email)->update(['token' => $token]);
+            if (PasswordResets::where('email', $email)->first()) {
+                PasswordResets::where('email', $email)->update(['token' => $token]);
             } else {
-                DB::table('password_resets')->insert([
+                PasswordResets::insert([
                     'email' => $email,
                     'token' => $token
                 ]);
@@ -50,7 +50,7 @@ class ForgotPasswordController extends Controller
     public function ResetPassword(ResetPasswordRequest $request, $token)
     {
         try {
-            if (!$data = DB::table('password_resets')->where('token', $token)->first()) {
+            if (!$data = PasswordResets::where('token', $token)->first()) {
                 return response([
                     'message' => 'Invalid token!'
                 ], 400);
@@ -66,7 +66,7 @@ class ForgotPasswordController extends Controller
             $user->password = Hash::make($request->input('password'));
             $user->save();
 
-            DB::table('password_resets')->where('email', $data->email)->delete();
+            PasswordResets::where('email', $data->email)->delete();
         } catch (\Exception $exception) {
             return response([
                 'message' => $exception->getMessage()

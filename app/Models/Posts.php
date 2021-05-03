@@ -12,8 +12,6 @@ class Posts extends Model
     protected $fillable = [
         'user_id',
         'title',
-        'date',
-        'status',
         'content',
         'category_id'
     ];
@@ -21,8 +19,6 @@ class Posts extends Model
     protected $casts = [
         'user_id' => 'integer',
         'title' => 'string',
-        'date' => 'timestamp',
-        'status' => 'boolean',
         'content' => 'string',
         'category_id' => 'array'
     ];

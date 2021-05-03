@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Posts;
 use App\Http\Requests\CreatePostRequest;
-use Illuminate\Support\Facades\DB;
 
 class PostsController extends Controller
 {
@@ -38,7 +37,7 @@ class PostsController extends Controller
 
     public function showPosts($category_id)
     {
-        if (!$data =  DB::table('posts')->where('category_id', $category_id)->get()->toArray()) {
+        if (!$data =  Posts::where('category_id', $category_id)->get()->toArray()) {
             return response([
                 'message' => 'Invalid category!'
             ], 404);

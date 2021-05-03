@@ -14,9 +14,11 @@ class CreateCommentsTable extends Migration
             $table->collation = 'utf8_general_ci';
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('post_id');
             $table->timestamp('date')->useCurrent();
             $table->string('content', 4096)->charset('utf8mb4')->collation('utf8mb4_general_ci');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

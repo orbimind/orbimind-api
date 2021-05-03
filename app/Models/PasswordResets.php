@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comments extends Model
+class PasswordResets extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'post_id',
-        'content'
+        'email',
+        'token'
     ];
 
     protected $casts = [
-        'user_id' => 'integer',
-        'post_id' => 'integer',
-        'content' => 'string'
+        'email' => 'string',
+        'token' => 'string'
     ];
 }
