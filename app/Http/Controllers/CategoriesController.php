@@ -8,6 +8,19 @@ use App\Models\Categories;
 
 class CategoriesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only([
+            'index',
+            'show'
+        ]);
+        $this->middleware('auth.admin')->only([
+            'store',
+            'update',
+            'destroy'
+        ]);
+    }
+
     public function index()
     {
         return Categories::all();
@@ -19,6 +32,7 @@ class CategoriesController extends Controller
             'title' => 'required|string',
             'description' => 'required|string'
         ]);
+
         return Categories::create($request->all());
     }
 
@@ -28,6 +42,7 @@ class CategoriesController extends Controller
             return response([
                 'message' => 'Category does not exist'
             ], 404);
+
         return Categories::find($category_id);
     }
 
@@ -38,6 +53,7 @@ class CategoriesController extends Controller
                 'message' => 'Category does not exist'
             ], 404);
         $data->update($request->all());
+
         return $data;
     }
 
@@ -47,6 +63,7 @@ class CategoriesController extends Controller
             return response([
                 'message' => 'Category does not exist'
             ], 404);
+
         return Categories::destroy($category_id);
     }
 
@@ -61,9 +78,8 @@ class CategoriesController extends Controller
 
             $result = [];
             $data = json_decode($data);
-            foreach ($data as $value) {
+            foreach ($data as $value)
                 array_push($result, Categories::where('id', $value)->first()->title);
-            }
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()

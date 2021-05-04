@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\UpdatePostRequest;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Posts;
 use App\Models\Handler;
 
@@ -18,10 +19,15 @@ class PostsController extends Controller
             'update',
             'destroy'
         ]);
+        $this->user = JWTAuth::user(JWTAuth::getToken());
     }
 
     public function index()
     {
+        if (!Handler::authenticatedAsAdmin($this->user)) {
+            $data = Posts::all()->where('user_id', $this->user->id)->where('status', false);
+            return $data->merge(Posts::all()->where('status', true));
+        }
         return Posts::all();
     }
 
@@ -37,17 +43,32 @@ class PostsController extends Controller
                 'message' => 'Invalid post'
             ], 404);
 
-        return Posts::find($id);
+        $data = Posts::find($id);
+        if (!Handler::authenticatedAsAdmin($this->user)) {
+            if ($data->status == false && $data->user_id != $this->user->id)
+                return response([
+                    'message' => 'You can not view this post!'
+                ], 403);
+        }
+
+        return $data;
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $id)
     {
         if (!$data = Posts::find($id))
             return response([
                 'message' => 'Invalid post'
             ], 404);
-        $data->update($request->all());
 
+        if (!Handler::authenticatedAsAdmin($this->user)) {
+            if ($data->user_id != $this->user->id)
+                return response([
+                    'message' => 'You can not edit this post!'
+                ], 403);
+        }
+
+        $data->update($request->only(['title', 'content', 'category_id']));
         return $data;
     }
 
@@ -57,6 +78,14 @@ class PostsController extends Controller
             return response([
                 'message' => 'Invalid post'
             ], 404);
+
+        $data = Posts::find($id);
+        if (!Handler::authenticatedAsAdmin($this->user)) {
+            if ($data->user_id != $this->user->id)
+                return response([
+                    'message' => 'You can not delete this post!'
+                ], 403);
+        }
 
         return Posts::destroy($id);
     }
@@ -68,6 +97,11 @@ class PostsController extends Controller
                 'message' => 'Invalid category!'
             ], 404);
 
-        return Posts::whereJsonContains('category_id', (int)$category_id)->get();
+        if (!Handler::authenticatedAsAdmin($this->user)) {
+            $data = Posts::whereJsonContains('category_id', (int)$category_id)->get()->where('user_id', $this->user->id)->where('status', false);
+            return $data->merge(Posts::whereJsonContains('category_id', (int)$category_id)->get()->where('status', true));
+        } else {
+            return Posts::whereJsonContains('category_id', (int)$category_id)->get();
+        }
     }
 }

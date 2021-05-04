@@ -14,11 +14,11 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'nullable|unique:users,username',
-            'name' => 'nullable|alpha',
-            'email' => 'nullable|email|unique:users,email',
-            'password' => 'nullable|min:8|confirmed',
-            'role' => 'nullable|alpha|in:user,admin'
+            'username' => 'unique:users,username',
+            'name' => 'alpha',
+            'email' => 'email|unique:users,email',
+            'password' => 'min:8|confirmed',
+            'role' => 'alpha|in:user,admin'
         ];
     }
 }

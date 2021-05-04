@@ -14,6 +14,7 @@ class Handler extends Model
             return true;
         return false;
     }
+
     static public function postExists($post_id)
     {
         if (\App\Models\Posts::find($post_id) === null)

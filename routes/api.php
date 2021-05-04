@@ -27,7 +27,7 @@ Route::prefix('posts')->group(function () {
     Route::delete('/{post_id}/like', 'App\Http\Controllers\LikeController@deletePostLike')->middleware('auth');
 });
 
-Route::apiResource('categories', 'App\Http\Controllers\CategoriesController')->middleware('auth.admin');
+Route::apiResource('categories', 'App\Http\Controllers\CategoriesController');
 Route::prefix('categories')->group(function () {
     Route::get('/{category_id}/posts', 'App\Http\Controllers\PostsController@showPosts')->middleware('auth');
 });

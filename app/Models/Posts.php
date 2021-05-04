@@ -13,6 +13,7 @@ class Posts extends Model
         'user_id',
         'title',
         'content',
+        'status',
         'category_id'
     ];
 
@@ -20,6 +21,7 @@ class Posts extends Model
         'user_id' => 'integer',
         'title' => 'string',
         'content' => 'string',
+        'status' => 'bool',
         'category_id' => 'array'
     ];
 }

@@ -19,9 +19,9 @@ class AuthController extends Controller
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password'))
             ]);
-        } catch (\Exception $exception) {
+        } catch (\Exception $e) {
             return response([
-                'message' => $exception->getMessage()
+                'message' => $e->getMessage()
             ], 400);
         }
 
@@ -48,9 +48,9 @@ class AuthController extends Controller
             return response([
                 'message' => 'Incorrect password!'
             ], 400);
-        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $exception) {
+        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
             return response([
-                'message' => $exception->getMessage()
+                'message' => $e->getMessage()
             ], 401);
         }
     }
@@ -59,8 +59,8 @@ class AuthController extends Controller
     {
         try {
             JWTAuth::invalidate(JWTAuth::getToken());
-        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $exception) {
-            return response(['error' => $exception->getMessage()], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response(['error' => $e->getMessage()], 401);
         }
 
         return response(['message' => 'Successfully logged out']);
@@ -70,8 +70,8 @@ class AuthController extends Controller
     {
         try {
             $user = JWTAuth::user(JWTAuth::getToken());
-        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $exception) {
-            return response(['error' => $exception->getMessage()], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response(['error' => $e->getMessage()], 401);
         }
         return $user;
     }
@@ -80,8 +80,8 @@ class AuthController extends Controller
     {
         try {
             $newToken = JWTAuth::refresh(JWTAuth::getToken());
-        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $exception) {
-            return response(['error' => $exception->getMessage()], 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response(['error' => $e->getMessage()], 401);
         }
 
         return response(['token' => $newToken]);
