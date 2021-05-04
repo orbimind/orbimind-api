@@ -20,18 +20,32 @@ class PostsController extends Controller
 
     public function show($id)
     {
+        if (Posts::find($id) === null)
+            return response([
+                'message' => 'Invalid post'
+            ], 404);
+
         return Posts::find($id);
     }
 
     public function update(Request $request, $id)
     {
-        $data = Posts::find($id);
+        if (!$data = Posts::find($id))
+            return response([
+                'message' => 'Invalid post'
+            ], 404);
         $data->update($request->all());
+
         return $data;
     }
 
     public function destroy($id)
     {
+        if (Posts::find($id) === null)
+            return response([
+                'message' => 'Invalid post'
+            ], 404);
+
         return Posts::destroy($id);
     }
 

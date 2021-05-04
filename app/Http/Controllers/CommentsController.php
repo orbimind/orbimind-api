@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCommentRequest;
 use Illuminate\Http\Request;
+use App\Models\Handler;
 use App\Models\Comments;
 
 class CommentsController extends Controller
 {
     public function show($id)
     {
+        if (Comments::find($id) === null)
+            return response([
+                'message' => 'Invalid comment'
+            ], 404);
+
         return Comments::find($id);
     }
 
@@ -20,13 +26,22 @@ class CommentsController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = Comments::find($id);
+        if (!$data =  Comments::find($id))
+            return response([
+                'message' => 'Invalid comment'
+            ], 404);
         $data->update($request->all());
+
         return $data;
     }
 
     public function destroy($id)
     {
+        if (Comments::find($id) === null)
+            return response([
+                'message' => 'Invalid comment'
+            ], 404);
+
         return Comments::destroy($id);
     }
 
@@ -43,11 +58,27 @@ class CommentsController extends Controller
 
     public function createComment(CreateCommentRequest $request, $post_id)
     {
-        $data = [
-            'user_id' => $request->input('user_id'),
-            'post_id' => $post_id,
-            'content' => $request->input('content')
-        ];
+        try {
+            if (!Handler::postExists($post_id))
+                return response()->json([
+                    'message' => 'This post does not exist!'
+                ], 404);
+            if (!Handler::userExists($request->input('user_id')))
+                return response()->json([
+                    'message' => 'This user does not exist!'
+                ], 404);
+
+            $data = [
+                'user_id' => $request->input('user_id'),
+                'post_id' => $post_id,
+                'content' => $request->input('content')
+            ];
+        } catch (\Exception $e) {
+            return response([
+                'message' => $e->getMessage()
+            ]);
+        }
+
         return Comments::create($data);
     }
 }

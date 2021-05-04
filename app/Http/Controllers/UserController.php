@@ -20,23 +20,37 @@ class UserController extends Controller
 
     public function uploadAvatar(Request $request)
     {
-        return 'User::avatar';
+        return env('APP_URL');
     }
 
     public function show($id)
     {
+        if (User::find($id) === null)
+            return response([
+                'message' => 'User does not exist'
+            ], 404);
+
         return User::find($id);
     }
 
     public function update(Request $request, $id)
     {
-        $data = User::find($id);
+        if (!$data = User::find($id))
+            return response([
+                'message' => 'User does not exist'
+            ], 404);
         $data->update($request->all());
+
         return $data;
     }
 
     public function destroy($id)
     {
+        if (User::find($id) === null)
+            return response([
+                'message' => 'User does not exist'
+            ], 404);
+
         return User::destroy($id);
     }
 }
