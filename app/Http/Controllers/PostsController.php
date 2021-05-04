@@ -3,11 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Posts;
 use App\Http\Requests\CreatePostRequest;
+use App\Models\Posts;
+use App\Models\Handler;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only([
+            'index',
+            'store',
+            'show',
+            'update',
+            'destroy'
+        ]);
+    }
+
     public function index()
     {
         return Posts::all();
@@ -20,7 +32,7 @@ class PostsController extends Controller
 
     public function show($id)
     {
-        if (Posts::find($id) === null)
+        if (!Handler::postExists($id))
             return response([
                 'message' => 'Invalid post'
             ], 404);
@@ -41,7 +53,7 @@ class PostsController extends Controller
 
     public function destroy($id)
     {
-        if (Posts::find($id) === null)
+        if (!Handler::postExists($id))
             return response([
                 'message' => 'Invalid post'
             ], 404);
@@ -51,12 +63,11 @@ class PostsController extends Controller
 
     public function showPosts($category_id)
     {
-        if (!$data =  Posts::where('category_id', $category_id)->get()->toArray()) {
+        if (!Handler::categoryExists($category_id))
             return response([
                 'message' => 'Invalid category!'
             ], 404);
-        }
 
-        return $data;
+        return Posts::whereJsonContains('category_id', (int)$category_id)->get();
     }
 }

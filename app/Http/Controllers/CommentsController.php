@@ -9,6 +9,24 @@ use App\Models\Comments;
 
 class CommentsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only([
+            'store',
+            'update',
+            'show',
+            'destroy'
+        ]);
+        $this->middleware('auth.admin')->only([
+            'index',
+        ]);
+    }
+
+    public function index()
+    {
+        return Comments::all();
+    }
+
     public function show($id)
     {
         if (Comments::find($id) === null)
@@ -37,10 +55,10 @@ class CommentsController extends Controller
 
     public function destroy($id)
     {
-        if (Comments::find($id) === null)
-            return response([
-                'message' => 'Invalid comment'
-            ], 404);
+        // if (Comments::find($id) === null)
+        //     return response([
+        //         'message' => 'Invalid comment'
+        //     ], 404);
 
         return Comments::destroy($id);
     }

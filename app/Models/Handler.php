@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Handler extends Model
 {
+    static public function authenticatedAsAdmin($user)
+    {
+        if ($user === null)
+            return false;
+        else if ($user->role == 'admin')
+            return true;
+        return false;
+    }
     static public function postExists($post_id)
     {
         if (\App\Models\Posts::find($post_id) === null)
@@ -21,6 +29,12 @@ class Handler extends Model
     static public function userExists($user_id)
     {
         if (\App\Models\User::find($user_id) === null)
+            return false;
+        return true;
+    }
+    static public function categoryExists($category_id)
+    {
+        if (\App\Models\Categories::find($category_id) === null)
             return false;
         return true;
     }

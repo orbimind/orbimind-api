@@ -69,7 +69,7 @@ class AuthController extends Controller
     public function user()
     {
         try {
-            $user = JWTAuth::user();
+            $user = JWTAuth::user(JWTAuth::getToken());
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $exception) {
             return response(['error' => $exception->getMessage()], 401);
         }

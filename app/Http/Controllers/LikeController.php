@@ -9,6 +9,18 @@ use App\Models\Like;
 
 class LikeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth.admin')->only([
+            'index'
+        ]);
+    }
+
+    public function index()
+    {
+        return Like::all();
+    }
+
     public function showPostLikes($post_id)
     {
         try {
@@ -110,7 +122,7 @@ class LikeController extends Controller
     public function createCommentLike(LikeCommentRequest $request, $comment_id)
     {
         try {
-            if (!$this->commentExists($comment_id))
+            if (!Handler::commentExists($comment_id))
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
@@ -145,7 +157,7 @@ class LikeController extends Controller
     public function deleteCommentLike(LikeCommentRequest $request, $comment_id)
     {
         try {
-            if (!$this->commentExists($comment_id))
+            if (!Handler::commentExists($comment_id))
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);

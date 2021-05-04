@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
-use Illuminate\Foundation\Auth\User;
+use App\Http\Requests\UserUpdateRequest;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -33,7 +34,7 @@ class UserController extends Controller
         return User::find($id);
     }
 
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
         if (!$data = User::find($id))
             return response([
