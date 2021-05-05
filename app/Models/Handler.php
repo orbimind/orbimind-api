@@ -21,6 +21,10 @@ class Handler extends Model
             return false;
         return true;
     }
+    static public function postActive($post_id)
+    {
+        return \App\Models\Posts::find($post_id)->status;
+    }
     static public function commentExists($comment_id)
     {
         if (\App\Models\Comments::find($comment_id) === null)

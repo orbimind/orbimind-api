@@ -14,10 +14,9 @@ class CreatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer',
             'title' => 'required|string',
             'content' => 'required|string',
-            'category_id' => 'required|array|numeric'
+            'category_id' => 'required|array'
         ];
     }
 }

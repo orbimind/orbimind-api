@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'username' => "PAXANDDOS",
             'name' => "Paul",
             'email' => "pashalitovka" . '@gmail.com',
+            'role' => "admin",
             'password' => Hash::make("paxanddos"),
         ]);
         $users->insert([
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $users->insert([
             'username' => "VeyronRaze",
-            'name' => "Sanya",
+            'name' => "Pasha",
             'email' => "veyronraze" . '@gmail.com',
             'password' => Hash::make("paxanddos"),
         ]);

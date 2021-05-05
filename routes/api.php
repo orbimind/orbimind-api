@@ -10,6 +10,7 @@ Route::prefix('auth')->group(function () {
     Route::get('/refresh', 'App\Http\Controllers\AuthController@refresh')->middleware('auth');
     Route::post('/password-reset', 'App\Http\Controllers\PasswordResetsController@ForgotPassword');
     Route::post('/password-reset/{token}', 'App\Http\Controllers\PasswordResetsController@ResetPassword');
+    Route::get('/password-reset/{token}/remove', 'App\Http\Controllers\PasswordResetsController@RemoveRequestPassword');
 });
 
 Route::apiResource('users', 'App\Http\Controllers\UserController')->middleware('auth.admin');

@@ -27,31 +27,44 @@ class PostsController extends Controller
         if (!Handler::authenticatedAsAdmin($this->user)) {
             $data = Posts::all()->where('user_id', $this->user->id)->where('status', false);
             return $data->merge(Posts::all()->where('status', true));
-        }
-        return Posts::all();
+        } else
+            return Posts::all();
     }
 
     public function store(CreatePostRequest $request)
     {
-        return Posts::create($request->all());
+        try {
+            $data = [
+                'user_id' => $this->user->id,
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'category_id' => $request->input('category_id')
+            ];
+
+            return Posts::create($data);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response([
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function show($id)
     {
-        if (!Handler::postExists($id))
+        if (!Handler::postExists($id)) {
             return response([
                 'message' => 'Invalid post'
             ], 404);
+        } else
+            $data = Posts::find($id);
 
-        $data = Posts::find($id);
         if (!Handler::authenticatedAsAdmin($this->user)) {
             if ($data->status == false && $data->user_id != $this->user->id)
                 return response([
                     'message' => 'You can not view this post!'
                 ], 403);
-        }
-
-        return $data;
+        } else
+            return $data;
     }
 
     public function update(UpdatePostRequest $request, $id)
@@ -68,7 +81,7 @@ class PostsController extends Controller
                 ], 403);
         }
 
-        $data->update($request->only(['title', 'content', 'category_id']));
+        $data->update($request->only(['title', 'content', 'category_id', 'status']));
         return $data;
     }
 

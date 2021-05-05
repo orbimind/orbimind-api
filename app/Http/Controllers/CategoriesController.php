@@ -78,14 +78,18 @@ class CategoriesController extends Controller
 
             $result = [];
             $data = json_decode($data);
-            foreach ($data as $value)
-                array_push($result, Categories::where('id', $value)->first()->title);
+            foreach ($data as $value) {
+                if (!$title = Categories::where('id', $value)->first()->title)
+                    continue;
+                else
+                    array_push($result, $title);
+            }
+
+            return response($result);
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()
             ], 401);
         }
-
-        return response($result);
     }
 }

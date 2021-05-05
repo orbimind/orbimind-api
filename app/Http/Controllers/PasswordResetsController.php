@@ -15,30 +15,32 @@ class PasswordResetsController extends Controller
 {
     public function ForgotPassword(ForgotPasswordRequest $request)
     {
-        $email = $request->input('email');
+        $user = User::where('email', $request->input('email'))->first();
         $token = Str::random(10);
 
         try {
-            if (PasswordResets::where('email', $email)->first()) {
-                PasswordResets::where('email', $email)->update(['token' => $token]);
-            } else {
-                PasswordResets::insert([
-                    'email' => $email,
+            if (PasswordResets::where('email', $user->email)->first())
+                PasswordResets::where('email', $user->email)->update(['token' => $token]);
+            else
+                PasswordResets::create([
+                    'email' => $user->email,
                     'token' => $token
                 ]);
-            }
 
             $data = [
-                'link' => URL::current() . '/' . $token,
+                'username' => $user->username,
+                'name' => $user->name,
+                'role' => $user->role,
+                'resetLink' => URL::current() . '/' . $token,
+                'removeLink' => URL::current() . '/' . $token . '/remove'
             ];
-            $user['email'] = $email;
             Mail::send('forgot', $data, function ($message) use ($user) {
-                $message->to($user['email']);
+                $message->to($user->email);
                 $message->subject('Password reset confirmation');
             });
 
             return response([
-                'message' => 'Password reset confirmation sent to ' . $email . '!'
+                'message' => 'Password reset confirmation sent to ' . $user->email . '!'
             ]);
         } catch (\Exception $exception) {
             return response([
@@ -76,5 +78,17 @@ class PasswordResetsController extends Controller
         return response([
             'message' => 'Password reset successful'
         ]);
+    }
+    public function RemoveRequestPassword($token)
+    {
+        if ($data = PasswordResets::where('token', $token)->first()) {
+            $data->delete();
+            return response([
+                'message' => "Password reset token was successfully deleted. Thank you for your cooperation!"
+            ]);
+        } else
+            return response([
+                'message' => "Password reset token was not found!"
+            ]);
     }
 }

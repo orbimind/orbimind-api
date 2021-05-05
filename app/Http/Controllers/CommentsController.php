@@ -63,12 +63,10 @@ class CommentsController extends Controller
                 'message' => 'Invalid comment'
             ], 404);
 
-        if (!Handler::authenticatedAsAdmin($this->user)) {
-            if ($data->user_id != $this->user->id)
-                return response([
-                    'message' => 'You can not change this comment!'
-                ], 403);
-        }
+        if (!Handler::authenticatedAsAdmin($this->user) && $data->user_id != $this->user->id)
+            return response([
+                'message' => 'You can not delete this comment!'
+            ], 403);
 
         return Comments::destroy($id);
     }
@@ -80,11 +78,10 @@ class CommentsController extends Controller
                 'message' => 'This post does not exist!'
             ], 404);
 
-        if (!$data =  Comments::where('post_id', $post_id)->get()->toArray()) {
+        if (!$data =  Comments::where('post_id', $post_id)->get()->toArray())
             return response([
                 'message' => 'Invalid post or no comments'
             ], 404);
-        }
 
         return $data;
     }
@@ -96,22 +93,23 @@ class CommentsController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (!Handler::userExists($request->input('user_id')))
+
+            if (!Handler::postActive($post_id))
                 return response()->json([
-                    'message' => 'This user does not exist!'
-                ], 404);
+                    'message' => 'This post is not active!'
+                ], 401);
 
             $data = [
-                'user_id' => $request->input('user_id'),
+                'user_id' => $this->user->id,
                 'post_id' => $post_id,
                 'content' => $request->input('content')
             ];
+
+            return Comments::create($data);
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()
             ]);
         }
-
-        return Comments::create($data);
     }
 }

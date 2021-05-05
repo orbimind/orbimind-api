@@ -16,7 +16,8 @@ class UpdatePostRequest extends FormRequest
         return [
             'title' => 'string',
             'content' => 'string',
-            'category_id' => 'array|numeric'
+            'category_id' => 'array|numeric',
+            'status' => 'boolean'
         ];
     }
 }

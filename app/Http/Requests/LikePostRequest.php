@@ -14,7 +14,6 @@ class LikePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer',
             'post_id' => 'integer',
             'type' => 'required|alpha|in:like,dislike'
         ];

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -37,17 +37,16 @@ class AuthController extends Controller
                 $token = JWTAuth::attempt($credentials);
 
                 return response([
-                    'message' => 'success',
+                    'message' => 'Logged in',
                     'token' => $token,
-                    'token_type' => 'bearer',
+                    'token_type' => 'Bearer',
                     'expires_in' => JWTAuth::factory()->getTTL(),
                     'user' => $user
                 ]);
-            }
-
-            return response([
-                'message' => 'Incorrect password!'
-            ], 400);
+            } else
+                return response([
+                    'message' => 'Incorrect password!'
+                ], 400);
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
             return response([
                 'message' => $e->getMessage()
@@ -59,31 +58,29 @@ class AuthController extends Controller
     {
         try {
             JWTAuth::invalidate(JWTAuth::getToken());
+            return response(['message' => 'Successfully logged out']);
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             return response(['error' => $e->getMessage()], 401);
         }
-
-        return response(['message' => 'Successfully logged out']);
     }
 
     public function user()
     {
         try {
             $user = JWTAuth::user(JWTAuth::getToken());
+            return $user;
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             return response(['error' => $e->getMessage()], 401);
         }
-        return $user;
     }
 
     public function refresh()
     {
         try {
             $newToken = JWTAuth::refresh(JWTAuth::getToken());
+            return response(['token' => $newToken]);
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             return response(['error' => $e->getMessage()], 401);
         }
-
-        return response(['token' => $newToken]);
     }
 }

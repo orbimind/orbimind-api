@@ -14,6 +14,7 @@ class LikeController extends Controller
         $this->middleware('auth.admin')->only([
             'index'
         ]);
+        $this->user = JWTAuth::user(JWTAuth::getToken());
     }
 
     public function index()
@@ -23,17 +24,15 @@ class LikeController extends Controller
 
     public function showPostLikes($post_id)
     {
-        try {
-            if (!$data = Like::where('post_id', $post_id)->get()->toArray()) {
-                return response([
-                    'message' => 'Invalid post or no likes'
-                ], 404);
-            }
-        } catch (\Exception $e) {
+        if (!$data = Like::where('post_id', $post_id)->get()->toArray())
             return response([
-                'message' => $e->getMessage()
-            ]);
-        }
+                'message' => 'Invalid post or no likes'
+            ], 404);
+
+        if (!Handler::authenticatedAsAdmin($this->user) && \App\Models\Posts::find($post_id)->status == false)
+            return response([
+                'message' => 'You can not view these likes'
+            ], 403);
 
         return $data;
     }
@@ -45,11 +44,11 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (!Handler::userExists($request->input('user_id')))
-                return response()->json([
-                    'message' => 'This user does not exist!'
-                ], 404);
-            if (Handler::duplicateLikeOnPost($request->input('user_id'), $post_id)) {
+            if (\App\Models\Posts::find($post_id)->status == false)
+                return response([
+                    'message' => 'This post is not active'
+                ], 403);
+            if (Handler::duplicateLikeOnPost($this->user->id, $post_id)) {
                 $this->deletePostLike($request, $post_id);
                 return response([
                     'message' => $request->input('type') . ' deleted'
@@ -57,20 +56,20 @@ class LikeController extends Controller
             }
 
             $data = [
-                'user_id' => $request->input('user_id'),
+                'user_id' => $this->user->id,
                 'post_id' => $post_id,
                 'type' => $request->input('type')
             ];
+
+            return response([
+                'message' => $request->input('type') . ' created',
+                'data' => Like::create($data)
+            ]);
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()
             ]);
         }
-
-        return response([
-            'message' => $request->input('type') . ' created',
-            'data' => Like::create($data)
-        ]);
     }
 
     public function deletePostLike(LikePostRequest $request, $post_id)
@@ -80,43 +79,36 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (!Handler::userExists($request->input('user_id')))
-                return response()->json([
-                    'message' => 'This user does not exist!'
-                ], 404);
-
-            if (!$data = Like::where('post_id', $post_id)->where('user_id', $request->input('user_id'))->where('type', $request->input('type'))->first()) {
+            if (!$data = Like::where('post_id', $post_id)->where('type', $request->input('type'))->where('user_id', $this->user->id)->first())
                 return response()->json([
                     'message' => 'Nothing to remove!'
                 ], 404);
-            }
+
             $data->delete();
+            return response([
+                'message' => $request->input('type') . ' successfuly deleted'
+            ]);
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()
             ]);
         }
-
-        return response([
-            'message' => $request->input('type') . ' successfuly deleted'
-        ]);
     }
 
     public function showCommentLikes($comment_id)
     {
         try {
-            if (!$data = Like::where('comment_id', $comment_id)->get()->toArray()) {
+            if (!$data = Like::where('comment_id', $comment_id)->get()->toArray())
                 return response([
                     'message' => 'Invalid comment or no likes'
                 ], 404);
-            }
+
+            return $data;
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()
             ]);
         }
-
-        return $data;
     }
 
     public function createCommentLike(LikeCommentRequest $request, $comment_id)
@@ -126,11 +118,7 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (!Handler::userExists($request->input('user_id')))
-                return response()->json([
-                    'message' => 'This user does not exist!'
-                ], 404);
-            if (Handler::duplicateLikeOnComment($request->input('user_id'), $comment_id)) {
+            if (Handler::duplicateLikeOnComment($this->user->id, $comment_id)) {
                 $this->deleteCommentLike($request, $comment_id);
                 return response([
                     'message' => $request->input('type') . ' deleted'
@@ -138,20 +126,19 @@ class LikeController extends Controller
             }
 
             $data = [
-                'user_id' => $request->input('user_id'),
+                'user_id' => $this->user->id,
                 'comment_id' => $comment_id,
                 'type' => $request->input('type')
             ];
+            return response([
+                'message' => $request->input('type') . ' created',
+                'data' => Like::create($data)
+            ]);
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()
             ]);
         }
-
-        return response([
-            'message' => $request->input('type') . ' created',
-            'data' => Like::create($data)
-        ]);
     }
 
     public function deleteCommentLike(LikeCommentRequest $request, $comment_id)
@@ -159,27 +146,23 @@ class LikeController extends Controller
         try {
             if (!Handler::commentExists($comment_id))
                 return response()->json([
-                    'message' => 'This post does not exist!'
-                ], 404);
-            if (!Handler::userExists($request->input('user_id')))
-                return response()->json([
-                    'message' => 'This user does not exist!'
+                    'message' => 'This comment does not exist!'
                 ], 404);
 
-            if (!$data = Like::where('comment_id', $comment_id)->where('user_id', $request->input('user_id'))->where('type', $request->input('type'))->first()) {
+            if (!$data = Like::where('comment_id', $comment_id)->where('type', $request->input('type')->where('user_id', $this->user->id))->first()) {
                 return response()->json([
                     'message' => 'Nothing to remove!'
                 ], 404);
             }
+
             $data->delete();
+            return response([
+                'message' => $request->input('type') . ' successfuly deleted'
+            ]);
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()
             ]);
         }
-
-        return response([
-            'message' => $request->input('type') . ' successfuly deleted'
-        ]);
     }
 }

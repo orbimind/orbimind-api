@@ -14,7 +14,6 @@ class LikeCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer',
             'comment_id' => 'integer',
             'type' => 'required|alpha|in:like,dislike'
         ];
