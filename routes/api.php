@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
-    Route::get('/me', 'App\Http\Controllers\AuthController@User')->middleware('auth');
+    Route::get('/me', 'App\Http\Controllers\AuthController@user')->middleware('auth');
+    Route::post('/me/update', 'App\Http\Controllers\AuthController@userUpdate')->middleware('auth');
     Route::post('/register', 'App\Http\Controllers\AuthController@Register');
     Route::post('/login', 'App\Http\Controllers\AuthController@Login');
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout')->middleware('auth');

@@ -15,7 +15,7 @@ class LikePostRequest extends FormRequest
     {
         return [
             'post_id' => 'integer',
-            'type' => 'required|alpha|in:like,dislike'
+            'type' => 'required|in:like,dislike'
         ];
     }
 }

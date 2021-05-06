@@ -45,14 +45,14 @@ class ServeCommand extends Command
         $this->line("<info>Starting Laravel development server:</info> http://{$this->host()}:{$this->port()}");
 
         $environmentFile = $this->option('env')
-                            ? base_path('.env').'.'.$this->option('env')
-                            : base_path('.env');
+            ? base_path('.env') . '.' . $this->option('env')
+            : base_path('.env');
 
         $hasEnvironment = file_exists($environmentFile);
 
         $environmentLastModified = $hasEnvironment
-                            ? filemtime($environmentFile)
-                            : now()->addDays(30)->getTimestamp();
+            ? filemtime($environmentFile)
+            : now()->addDays(30)->getTimestamp();
 
         $process = $this->startProcess($hasEnvironment);
 
@@ -61,9 +61,11 @@ class ServeCommand extends Command
                 clearstatcache(false, $environmentFile);
             }
 
-            if (! $this->option('no-reload') &&
+            if (
+                !$this->option('no-reload') &&
                 $hasEnvironment &&
-                filemtime($environmentFile) > $environmentLastModified) {
+                filemtime($environmentFile) > $environmentLastModified
+            ) {
                 $environmentLastModified = filemtime($environmentFile);
 
                 $this->comment('Environment modified. Restarting server...');
@@ -96,13 +98,13 @@ class ServeCommand extends Command
     protected function startProcess($hasEnvironment)
     {
         $process = new Process($this->serverCommand(), null, collect($_ENV)->mapWithKeys(function ($value, $key) use ($hasEnvironment) {
-            if ($this->option('no-reload') || ! $hasEnvironment) {
+            if ($this->option('no-reload') || !$hasEnvironment) {
                 return [$key => $value];
             }
 
             return in_array($key, ['APP_ENV', 'LARAVEL_SAIL'])
-                    ? [$key => $value]
-                    : [$key => false];
+                ? [$key => $value]
+                : [$key => false];
         })->all());
 
         $process->start(function ($type, $buffer) {
@@ -122,7 +124,7 @@ class ServeCommand extends Command
         return [
             (new PhpExecutableFinder)->find(false),
             '-S',
-            $this->host().':'.$this->port(),
+            $this->host() . ':' . $this->port(),
             base_path('server.php'),
         ];
     }
@@ -157,7 +159,7 @@ class ServeCommand extends Command
     protected function canTryAnotherPort()
     {
         return is_null($this->input->getOption('port')) &&
-               ($this->input->getOption('tries') > $this->portOffset);
+            ($this->input->getOption('tries') > $this->portOffset);
     }
 
     /**

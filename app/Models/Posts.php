@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kblais\QueryFilter\Filterable;
 
 class Posts extends Model
 {
     use HasFactory;
+    use Filterable;
 
     protected $fillable = [
         'user_id',

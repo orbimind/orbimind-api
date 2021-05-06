@@ -15,7 +15,7 @@ class LikeCommentRequest extends FormRequest
     {
         return [
             'comment_id' => 'integer',
-            'type' => 'required|alpha|in:like,dislike'
+            'type' => 'required|in:like,dislike'
         ];
     }
 }

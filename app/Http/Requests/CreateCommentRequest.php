@@ -15,7 +15,7 @@ class CreateCommentRequest extends FormRequest
     {
         return [
             'post_id' => 'integer',
-            'content' => 'required|string'
+            'content' => 'required|string|max:4096'
         ];
     }
 }

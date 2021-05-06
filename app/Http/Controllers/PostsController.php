@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\PostsResource;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Posts;
+use App\QueryFilters\PostsFilter;
 use App\Models\Handler;
 
 class PostsController extends Controller
@@ -22,13 +24,15 @@ class PostsController extends Controller
         $this->user = JWTAuth::user(JWTAuth::getToken());
     }
 
-    public function index()
+    public function index(PostsFilter $filter)
     {
+        $posts = Posts::filter($filter)->get();
         if (!Handler::authenticatedAsAdmin($this->user)) {
-            $data = Posts::all()->where('user_id', $this->user->id)->where('status', false);
-            return $data->merge(Posts::all()->where('status', true));
+            $data = $posts->where('user_id', $this->user->id)->where('status', false);
+            $data = $data->merge($posts->where('status', true));
+            return PostsResource::collection($data);
         } else
-            return Posts::all();
+            return PostsResource::collection($posts);
     }
 
     public function store(CreatePostRequest $request)

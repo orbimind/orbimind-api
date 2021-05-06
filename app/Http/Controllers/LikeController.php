@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LikeResource;
 use App\Http\Requests\LikeCommentRequest;
-use \App\Http\Requests\LikePostRequest;
+use App\Http\Requests\LikePostRequest;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Handler;
 use App\Models\Like;
 
@@ -24,7 +26,7 @@ class LikeController extends Controller
 
     public function showPostLikes($post_id)
     {
-        if (!$data = Like::where('post_id', $post_id)->get()->toArray())
+        if (!$data = Like::where('post_id', $post_id)->get())
             return response([
                 'message' => 'Invalid post or no likes'
             ], 404);
@@ -34,7 +36,7 @@ class LikeController extends Controller
                 'message' => 'You can not view these likes'
             ], 403);
 
-        return $data;
+        return LikeResource::collection($data);
     }
 
     public function createPostLike(LikePostRequest $request, $post_id)
@@ -79,7 +81,7 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (!$data = Like::where('post_id', $post_id)->where('type', $request->input('type'))->where('user_id', $this->user->id)->first())
+            if (!$data = Like::where('post_id', $post_id)->where('user_id', $this->user->id)->where('type', $request->input('type'))->first())
                 return response()->json([
                     'message' => 'Nothing to remove!'
                 ], 404);
@@ -97,18 +99,12 @@ class LikeController extends Controller
 
     public function showCommentLikes($comment_id)
     {
-        try {
-            if (!$data = Like::where('comment_id', $comment_id)->get()->toArray())
-                return response([
-                    'message' => 'Invalid comment or no likes'
-                ], 404);
-
-            return $data;
-        } catch (\Exception $e) {
+        if (!$data = Like::where('comment_id', $comment_id)->get())
             return response([
-                'message' => $e->getMessage()
-            ]);
-        }
+                'message' => 'Invalid comment or no likes'
+            ], 404);
+
+        return LikeResource::collection($data);
     }
 
     public function createCommentLike(LikeCommentRequest $request, $comment_id)
@@ -149,7 +145,7 @@ class LikeController extends Controller
                     'message' => 'This comment does not exist!'
                 ], 404);
 
-            if (!$data = Like::where('comment_id', $comment_id)->where('type', $request->input('type')->where('user_id', $this->user->id))->first()) {
+            if (!$data = Like::where('comment_id', $comment_id)->where('user_id', $this->user->id)->where('type', $request->input('type'))->first()) {
                 return response()->json([
                     'message' => 'Nothing to remove!'
                 ], 404);

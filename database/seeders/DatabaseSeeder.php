@@ -38,6 +38,12 @@ class DatabaseSeeder extends Seeder
             'email' => "veyronraze" . '@gmail.com',
             'password' => Hash::make("paxanddos"),
         ]);
+        $users->insert([
+            'username' => "Gazaris",
+            'name' => "Artem",
+            'email' => "afterlife.limbo" . '@gmail.com',
+            'password' => Hash::make("paxanddos"),
+        ]);
     }
 
     protected function seedCategories($categories)

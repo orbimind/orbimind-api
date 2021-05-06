@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoriesResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Categories;
@@ -23,14 +24,14 @@ class CategoriesController extends Controller
 
     public function index()
     {
-        return Categories::all();
+        return CategoriesResource::collection(Categories::all());
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string'
+            'title' => 'required|string|max:32',
+            'description' => 'required|string|max:256'
         ]);
 
         return Categories::create($request->all());
