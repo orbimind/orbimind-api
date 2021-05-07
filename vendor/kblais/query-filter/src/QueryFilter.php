@@ -87,8 +87,7 @@ abstract class QueryFilter implements Arrayable
     {
         return property_exists($this, 'source')
             ? $this->source
-            : config('query-filter.default-filters-source')
-        ;
+            : config('query-filter.default-filters-source');
     }
 
     protected function shouldCallMethod(string $methodName, $value): bool
@@ -97,8 +96,7 @@ abstract class QueryFilter implements Arrayable
             $method = new ReflectionMethod($this, $methodName);
 
             return (1 === $method->getNumberOfRequiredParameters() && null !== $value)
-                || (0 === $method->getNumberOfRequiredParameters() && (bool) $value)
-            ;
+                || (0 === $method->getNumberOfRequiredParameters() && (bool) $value);
         }
 
         return false;

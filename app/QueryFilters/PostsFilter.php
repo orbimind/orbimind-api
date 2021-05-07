@@ -3,27 +3,34 @@
 namespace App\QueryFilters;
 
 use Kblais\QueryFilter\QueryFilter;
+use Illuminate\Support\Facades\DB;
 
 class PostsFilter extends QueryFilter
 {
-    public function title(string $value)
+    public function search(string $value)
     {
-        return $this->where('title', 'like', '%' . $value . '%');
+        return $this->where('title', 'LIKE', '%' . $value . '%')->orWhere('content', 'LIKE', '%' . $value . '%');
     }
 
-    public function content(string $value)
+    public function user(string $value)
     {
-        return $this->where('content', 'like', '%' . $value . '%');
+        $id = DB::table('users')->where('username', $value)->first()->id;
+        return $this->where('user_id', $id);
     }
 
-    public function user(int $value)
+    public function category(string $value)
     {
-        return $this->where('user_id', $value);
-    }
-
-    public function category(int $value)
-    {
-        return $this->whereJsonContains('category_id', $value);
+        $categories = explode(',', $value);
+        $category_ids = array();
+        try {
+            for ($i = 0; $i < count($categories); $i++) {
+                $id = DB::table('categories')->where('title', $categories[$i])->first()->id;
+                array_push($category_ids, (int)$id);
+            }
+        } catch (\ErrorException $e) {
+            return $this;
+        }
+        return $this->whereJsonContains('category_id', $category_ids);
     }
 
     public function status(bool $value)
@@ -38,5 +45,23 @@ class PostsFilter extends QueryFilter
     public function endDate($end)
     {
         return $this->where('created_at', '<', $end . ' 23:59:59');
+    }
+
+    public function order(string $value)
+    {
+        $sort = explode('+', $value);
+        switch ($sort[0]) {
+            case 'date':
+                return $this->orderBy('created_at', (string)$sort[1]);
+            case 'date':
+                return $this->orderBy('created_at', (string)$sort[1]);
+            case 'rating':
+                return $this;
+        }
+    }
+
+    public function page()
+    {
+        return $this->paginate(10);
     }
 }

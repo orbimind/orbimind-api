@@ -59,16 +59,17 @@ class PostsController extends Controller
             return response([
                 'message' => 'Invalid post'
             ], 404);
-        } else
-            $data = Posts::find($id);
+        }
+        $data = Posts::find($id);
 
         if (!Handler::authenticatedAsAdmin($this->user)) {
             if ($data->status == false && $data->user_id != $this->user->id)
                 return response([
                     'message' => 'You can not view this post!'
                 ], 403);
-        } else
-            return $data;
+        }
+
+        return $data;
     }
 
     public function update(UpdatePostRequest $request, $id)

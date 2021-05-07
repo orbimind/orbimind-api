@@ -26,4 +26,13 @@ class Posts extends Model
         'status' => 'bool',
         'category_id' => 'array'
     ];
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
+    }
 }

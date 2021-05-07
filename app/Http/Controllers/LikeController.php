@@ -63,6 +63,11 @@ class LikeController extends Controller
                 'type' => $request->input('type')
             ];
 
+            if ($request->input('type') == 'like')
+                Handler::increasePostRating($post_id);
+            else
+                Handler::decreasePostRating($post_id);
+
             return response([
                 'message' => $request->input('type') . ' created',
                 'data' => Like::create($data)
@@ -87,6 +92,12 @@ class LikeController extends Controller
                 ], 404);
 
             $data->delete();
+
+            if (Like::where('post_id', $post_id)->first()->type == 'like')
+                Handler::decreasePostRating($post_id);
+            else
+                Handler::increasePostRating($post_id);
+
             return response([
                 'message' => $request->input('type') . ' successfuly deleted'
             ]);
@@ -126,6 +137,12 @@ class LikeController extends Controller
                 'comment_id' => $comment_id,
                 'type' => $request->input('type')
             ];
+
+            if ($request->input('type') == 'like')
+                Handler::increaseCommentRating($comment_id);
+            else
+                Handler::decreaseCommentRating($comment_id);
+
             return response([
                 'message' => $request->input('type') . ' created',
                 'data' => Like::create($data)
@@ -150,6 +167,11 @@ class LikeController extends Controller
                     'message' => 'Nothing to remove!'
                 ], 404);
             }
+
+            if (Like::where('comment_id', $comment_id)->first()->type == 'like')
+                Handler::decreaseCommentRating($comment_id);
+            else
+                Handler::increaseCommentRating($comment_id);
 
             $data->delete();
             return response([

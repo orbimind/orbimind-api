@@ -20,6 +20,7 @@ class PostsResource extends JsonResource
             'title' => $this->title,
             'content' => $this->content,
             'category_id' => $this->category_id,
+            'rating' => $this->rating,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

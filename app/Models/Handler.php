@@ -55,4 +55,54 @@ class Handler extends Model
             return false;
         return true;
     }
+
+    static public function increasePostRating($post_id)
+    {
+        $current = (int)\App\Models\Posts::where('id', $post_id)->first()->rating;
+        $new = $current + 1;
+        \App\Models\Posts::where('id', $post_id)->update(array('rating' => $new));
+
+        $user_id = (int)\App\Models\Posts::where('id', $post_id)->first()->user_id;
+        Handler::increaseUserRating($user_id);
+    }
+    static public function decreasePostRating($post_id)
+    {
+        $current = (int)\App\Models\Posts::where('id', $post_id)->first()->rating;
+        $new = $current - 1;
+        \App\Models\Posts::where('id', $post_id)->update(array('rating' => $new));
+
+        $user_id = (int)\App\Models\Posts::where('id', $post_id)->first()->user_id;
+        Handler::decreaseUserRating($user_id);
+    }
+    static public function increaseCommentRating($comment_id)
+    {
+        $current = (int)\App\Models\Comments::where('id', $comment_id)->first()->rating;
+        $new = $current + 1;
+        \App\Models\Comments::where('id', $comment_id)->update(array('rating' => $new));
+
+        $user_id = (int)\App\Models\Comments::where('id', $comment_id)->first()->user_id;
+        Handler::increaseUserRating($user_id);
+    }
+    static public function decreaseCommentRating($comment_id)
+    {
+        $current = (int)\App\Models\Comments::where('id', $comment_id)->first()->rating;
+        $new = $current - 1;
+        \App\Models\Comments::where('id', $comment_id)->update(array('rating' => $new));
+
+        $user_id = (int)\App\Models\Comments::where('id', $comment_id)->first()->user_id;
+        Handler::decreaseUserRating($user_id);
+    }
+
+    static public function increaseUserRating($user_id)
+    {
+        $current = (int)\App\Models\User::where('id', $user_id)->first()->rating;
+        $new = $current + 1;
+        \App\Models\User::where('id', $user_id)->update(array('rating' => $new));
+    }
+    static public function decreaseUserRating($user_id)
+    {
+        $current = (int)\App\Models\User::where('id', $user_id)->first()->rating;
+        $new = $current - 1;
+        \App\Models\User::where('id', $user_id)->update(array('rating' => $new));
+    }
 }

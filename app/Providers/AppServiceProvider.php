@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Http\Resources\PostsResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        PostsResource::withoutWrapping();
+        \App\Http\Resources\PostsResource::withoutWrapping();
+        \App\Http\Resources\LikeResource::withoutWrapping();
+        \App\Http\Resources\CategoriesResource::withoutWrapping();
     }
 }
