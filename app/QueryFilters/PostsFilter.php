@@ -53,10 +53,8 @@ class PostsFilter extends QueryFilter
         switch ($sort[0]) {
             case 'date':
                 return $this->orderBy('created_at', (string)$sort[1]);
-            case 'date':
-                return $this->orderBy('created_at', (string)$sort[1]);
             case 'rating':
-                return $this;
+                return $this->orderBy('rating', (string)$sort[1]);
         }
     }
 

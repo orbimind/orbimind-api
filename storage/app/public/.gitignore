@@ -1,2 +1,3 @@
-*
+avatars/*
+!avatars/default.jpeg
 !.gitignore

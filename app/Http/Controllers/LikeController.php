@@ -91,13 +91,12 @@ class LikeController extends Controller
                     'message' => 'Nothing to remove!'
                 ], 404);
 
-            $data->delete();
-
             if (Like::where('post_id', $post_id)->first()->type == 'like')
                 Handler::decreasePostRating($post_id);
             else
                 Handler::increasePostRating($post_id);
 
+            $data->delete();
             return response([
                 'message' => $request->input('type') . ' successfuly deleted'
             ]);

@@ -533,7 +533,6 @@ class ComposerStaticInit4c16b423d771de705744b6db3bf69113
     );
 
     public static $classMap = array (
-        'App\\Concerns\\Filterable' => __DIR__ . '/../..' . '/app/Concerns/Filterable.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
@@ -544,8 +543,6 @@ class ComposerStaticInit4c16b423d771de705744b6db3bf69113
         'App\\Http\\Controllers\\PasswordResetsController' => __DIR__ . '/../..' . '/app/Http/Controllers/PasswordResetsController.php',
         'App\\Http\\Controllers\\PostsController' => __DIR__ . '/../..' . '/app/Http/Controllers/PostsController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
-        'App\\Http\\Filters\\Filter' => __DIR__ . '/../..' . '/app/Http/Filters/Filter.php',
-        'App\\Http\\Filters\\PostsFilter' => __DIR__ . '/../..' . '/app/Http/Filters/PostsFilter.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\AuthenticatedAsAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/AuthenticatedAsAdmin.php',
@@ -556,6 +553,7 @@ class ComposerStaticInit4c16b423d771de705744b6db3bf69113
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\AvatarRequest' => __DIR__ . '/../..' . '/app/Http/Requests/AvatarRequest.php',
         'App\\Http\\Requests\\CreateCommentRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreateCommentRequest.php',
         'App\\Http\\Requests\\CreatePostRequest' => __DIR__ . '/../..' . '/app/Http/Requests/CreatePostRequest.php',
         'App\\Http\\Requests\\ForgotPasswordRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ForgotPasswordRequest.php',
@@ -568,7 +566,10 @@ class ComposerStaticInit4c16b423d771de705744b6db3bf69113
         'App\\Http\\Requests\\UpdatePostRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdatePostRequest.php',
         'App\\Http\\Requests\\UpdateUserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateUserRequest.php',
         'App\\Http\\Requests\\UserUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserUpdateRequest.php',
+        'App\\Http\\Resources\\CategoriesResource' => __DIR__ . '/../..' . '/app/Http/Resources/CategoriesResource.php',
+        'App\\Http\\Resources\\LikeResource' => __DIR__ . '/../..' . '/app/Http/Resources/LikeResource.php',
         'App\\Http\\Resources\\PostsResource' => __DIR__ . '/../..' . '/app/Http/Resources/PostsResource.php',
+        'App\\Models\\Avatar' => __DIR__ . '/../..' . '/app/Models/Avatar.php',
         'App\\Models\\Categories' => __DIR__ . '/../..' . '/app/Models/Categories.php',
         'App\\Models\\Comments' => __DIR__ . '/../..' . '/app/Models/Comments.php',
         'App\\Models\\Handler' => __DIR__ . '/../..' . '/app/Models/Handler.php',
@@ -581,6 +582,7 @@ class ComposerStaticInit4c16b423d771de705744b6db3bf69113
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\QueryFilters\\PostsFilter' => __DIR__ . '/../..' . '/app/QueryFilters/PostsFilter.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/CorsService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

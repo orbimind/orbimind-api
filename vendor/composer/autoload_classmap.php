@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Concerns\\Filterable' => $baseDir . '/app/Concerns/Filterable.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
@@ -17,8 +16,6 @@ return array(
     'App\\Http\\Controllers\\PasswordResetsController' => $baseDir . '/app/Http/Controllers/PasswordResetsController.php',
     'App\\Http\\Controllers\\PostsController' => $baseDir . '/app/Http/Controllers/PostsController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
-    'App\\Http\\Filters\\Filter' => $baseDir . '/app/Http/Filters/Filter.php',
-    'App\\Http\\Filters\\PostsFilter' => $baseDir . '/app/Http/Filters/PostsFilter.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\AuthenticatedAsAdmin' => $baseDir . '/app/Http/Middleware/AuthenticatedAsAdmin.php',
@@ -29,6 +26,7 @@ return array(
     'App\\Http\\Middleware\\TrustHosts' => $baseDir . '/app/Http/Middleware/TrustHosts.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Http\\Requests\\AvatarRequest' => $baseDir . '/app/Http/Requests/AvatarRequest.php',
     'App\\Http\\Requests\\CreateCommentRequest' => $baseDir . '/app/Http/Requests/CreateCommentRequest.php',
     'App\\Http\\Requests\\CreatePostRequest' => $baseDir . '/app/Http/Requests/CreatePostRequest.php',
     'App\\Http\\Requests\\ForgotPasswordRequest' => $baseDir . '/app/Http/Requests/ForgotPasswordRequest.php',
@@ -41,7 +39,10 @@ return array(
     'App\\Http\\Requests\\UpdatePostRequest' => $baseDir . '/app/Http/Requests/UpdatePostRequest.php',
     'App\\Http\\Requests\\UpdateUserRequest' => $baseDir . '/app/Http/Requests/UpdateUserRequest.php',
     'App\\Http\\Requests\\UserUpdateRequest' => $baseDir . '/app/Http/Requests/UserUpdateRequest.php',
+    'App\\Http\\Resources\\CategoriesResource' => $baseDir . '/app/Http/Resources/CategoriesResource.php',
+    'App\\Http\\Resources\\LikeResource' => $baseDir . '/app/Http/Resources/LikeResource.php',
     'App\\Http\\Resources\\PostsResource' => $baseDir . '/app/Http/Resources/PostsResource.php',
+    'App\\Models\\Avatar' => $baseDir . '/app/Models/Avatar.php',
     'App\\Models\\Categories' => $baseDir . '/app/Models/Categories.php',
     'App\\Models\\Comments' => $baseDir . '/app/Models/Comments.php',
     'App\\Models\\Handler' => $baseDir . '/app/Models/Handler.php',
@@ -54,6 +55,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\QueryFilters\\PostsFilter' => $baseDir . '/app/QueryFilters/PostsFilter.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Cors.php',
     'Asm89\\Stack\\CorsService' => $vendorDir . '/asm89/stack-cors/src/CorsService.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
