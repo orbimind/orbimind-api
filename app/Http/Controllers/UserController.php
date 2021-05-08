@@ -7,7 +7,6 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\AvatarRequest;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
-use App\Models\Avatar;
 
 class UserController extends Controller
 {
@@ -24,30 +23,17 @@ class UserController extends Controller
     public function uploadAvatar(AvatarRequest $request)
     {
         if ($request->file('image')) {
-            $user_id = JWTAuth::user(JWTAuth::getToken())->id;
+            $user = User::find(JWTAuth::user(JWTAuth::getToken())->id);
+            if ($user->image != 'avatars/default.jpeg')
+                \Illuminate\Support\Facades\Storage::delete('public/' . $user->image);
+            $user->update([
+                'image' => $image = $request->file('image')->storeAs('avatars', $user->id . $request->file('image')->getClientOriginalName(), 'public')
+            ]);
 
-            if ($data = Avatar::where('user_id', $user_id)->first()) {
-                \Illuminate\Support\Facades\Storage::delete('public/' . $data->image);
-                $data->update([
-                    'user_id' => $user_id,
-                    'image' => $image = $request->file('image')->storeAs('avatars', $request->file('image')->getClientOriginalName(), 'public')
-                ]);
-
-                return response([
-                    "message" => "Your avatar was updated",
-                    "image" => $image
-                ]);
-            } else {
-                Avatar::create([
-                    'user_id' => $user_id,
-                    'image' => $image = $request->file('image')->storeAs('avatars', $request->file('image')->getClientOriginalName(), 'public')
-                ]);
-
-                return response([
-                    "message" => "Your avatar was uploaded",
-                    "image" => $image
-                ]);
-            }
+            return response([
+                "message" => "Your avatar was uploaded",
+                "image" => $image
+            ]);
         }
     }
 

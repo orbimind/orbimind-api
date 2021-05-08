@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->charset('utf8')->collation('utf8_general_ci');
             $table->string('name', 20)->charset('utf8')->collation('utf8_general_ci');
             $table->string('email', 64)->unique()->charset('utf8')->collation('utf8_general_ci');
+            $table->string('image')->default('avatars/default.jpeg');
             $table->integer('rating')->default(0);
             $table->enum('role', ['user', 'admin'])->default('user')->charset('latin1')->collation('latin1_general_ci');
 
