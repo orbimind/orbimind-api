@@ -3,7 +3,6 @@ align-items: center;
 width: 100%;">
     <section style="display: block;
     align-items: center;
-    width: 30%;
     height: 100px;
     background-color: #0078D4;">
         <h1 style="color: white;
@@ -13,8 +12,7 @@ width: 100%;">
         font-family: Poppins, Arial, Helvetica;
         font-weight: 400;">Hello, <span style="font-weight: 600;">{{$username}}!<span></h1>
     </section>
-    <section style="display: block;
-    width: 30%;">
+    <section style="display: block;">
         <p style="font-family: Poppins, Arial, Helvetica;">Greetings, <span style="font-weight: 600;">{{$name}}</span>!</p>
         <p style="font-family: Poppins, Arial, Helvetica;">You're receiving this message because a <span style="font-weight: 600;">{{$role}}</span> account associated with this email has recently requested a password reset.</p>
         <p style="font-family: Poppins, Arial, Helvetica;">If it wasn't you, please keep calm and <a href="{{$removeLink}}">click here</a> to delete the password reset request.</p>
@@ -32,7 +30,6 @@ width: 100%;">
         text-decoration: none;">Click here to change your password</a>
     </section>
     <section style="display: block;
-    width: 30%;
     align-items: center;
     padding: 10px 0;
     background-color:#F0F0F0;">

@@ -26,7 +26,7 @@ class LikeController extends Controller
 
     public function showPostLikes($post_id)
     {
-        if (!$data = Like::where('post_id', $post_id)->get())
+        if (!$data = Like::where('post_id', $post_id)->get()->all())
             return response([
                 'message' => 'Invalid post or no likes'
             ], 404);
@@ -109,7 +109,7 @@ class LikeController extends Controller
 
     public function showCommentLikes($comment_id)
     {
-        if (!$data = Like::where('comment_id', $comment_id)->get())
+        if (!$data = Like::where('comment_id', $comment_id)->get()->all())
             return response([
                 'message' => 'Invalid comment or no likes'
             ], 404);
