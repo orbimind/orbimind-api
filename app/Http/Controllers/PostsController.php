@@ -122,4 +122,68 @@ class PostsController extends Controller
             return Posts::whereJsonContains('category_id', (int)$category_id)->get();
         }
     }
+
+    public function addToFaves($post_id)
+    {
+        if (!$post = Posts::find($post_id))
+            return response([
+                'message' => 'This post does not exist'
+            ], 404);
+
+        if (!Handler::authenticatedAsAdmin($this->user)) {
+            if ($post->status == false && $this->user->id != $post->user_id)
+                return response([
+                    'message' => 'You can not add this post to favorites'
+                ], 401);
+        }
+
+        $faves = $this->user->faves;
+        if ($faves == null) {
+            $faves = array();
+            array_push($faves, (int)$post_id);
+            \App\Models\User::find($this->user->id)->update(['faves' => $faves]);
+            return response([
+                'message' => 'Post successfully added to favorites'
+            ]);
+        }
+
+        foreach ($faves as $key) {
+            if ($key == $post_id)
+                return $this->removeFromFaves($post_id);
+        }
+        array_push($faves, (int)$post_id);
+        \App\Models\User::find($this->user->id)->update(['faves' => $faves]);
+
+        return response([
+            'message' => 'Post successfully added to favorites'
+        ]);
+    }
+
+    public function removeFromFaves($post_id)
+    {
+        if (!Posts::find($post_id))
+            return response([
+                'message' => 'This post does not exist'
+            ], 404);
+
+        if (!$faves = $this->user->faves)
+            return response([
+                'message' => 'Nothing to remove'
+            ], 404);
+
+        $result = array();
+        foreach ($faves as $key) {
+            if ($key == (int)$post_id)
+                continue;
+            array_push($result, (int)$key);
+        }
+        if ($result == [])
+            $result = null;
+
+        \App\Models\User::find($this->user->id)->update(['faves' => $result]);
+
+        return response([
+            'message' => 'Post successfully removed from favorites'
+        ]);
+    }
 }

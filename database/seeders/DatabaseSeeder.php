@@ -44,6 +44,12 @@ class DatabaseSeeder extends Seeder
             'email' => "afterlife.limbo" . '@gmail.com',
             'password' => Hash::make("paxanddos"),
         ]);
+        $users->insert([
+            'username' => "Naztar",
+            'name' => "Nazar",
+            'email' => "nazar.taran.id" . '@gmail.com',
+            'password' => Hash::make("paxanddos"),
+        ]);
     }
 
     protected function seedCategories($categories)
