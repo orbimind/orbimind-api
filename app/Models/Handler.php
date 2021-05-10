@@ -17,29 +17,29 @@ class Handler extends Model
 
     static public function postExists($post_id)
     {
-        if (\App\Models\Posts::find($post_id) === null)
+        if (Posts::find($post_id) === null)
             return false;
         return true;
     }
     static public function postActive($post_id)
     {
-        return \App\Models\Posts::find($post_id)->status;
+        return Posts::find($post_id)->status;
     }
     static public function commentExists($comment_id)
     {
-        if (\App\Models\Comments::find($comment_id) === null)
+        if (Comments::find($comment_id) === null)
             return false;
         return true;
     }
     static public function userExists($user_id)
     {
-        if (\App\Models\User::find($user_id) === null)
+        if (User::find($user_id) === null)
             return false;
         return true;
     }
     static public function categoryExists($category_id)
     {
-        if (\App\Models\Categories::find($category_id) === null)
+        if (Categories::find($category_id) === null)
             return false;
         return true;
     }
@@ -58,51 +58,72 @@ class Handler extends Model
 
     static public function increasePostRating($post_id)
     {
-        $current = (int)\App\Models\Posts::where('id', $post_id)->first()->rating;
+        $current = (int)Posts::where('id', $post_id)->first()->rating;
         $new = $current + 1;
-        \App\Models\Posts::where('id', $post_id)->update(array('rating' => $new));
+        Posts::where('id', $post_id)->update(array('rating' => $new));
 
-        $user_id = (int)\App\Models\Posts::where('id', $post_id)->first()->user_id;
+        $user_id = (int)Posts::where('id', $post_id)->first()->user_id;
         Handler::increaseUserRating($user_id);
     }
     static public function decreasePostRating($post_id)
     {
-        $current = (int)\App\Models\Posts::where('id', $post_id)->first()->rating;
+        $current = (int)Posts::where('id', $post_id)->first()->rating;
         $new = $current - 1;
-        \App\Models\Posts::where('id', $post_id)->update(array('rating' => $new));
+        Posts::where('id', $post_id)->update(array('rating' => $new));
 
-        $user_id = (int)\App\Models\Posts::where('id', $post_id)->first()->user_id;
+        $user_id = (int)Posts::where('id', $post_id)->first()->user_id;
         Handler::decreaseUserRating($user_id);
     }
     static public function increaseCommentRating($comment_id)
     {
-        $current = (int)\App\Models\Comments::where('id', $comment_id)->first()->rating;
+        $current = (int)Comments::where('id', $comment_id)->first()->rating;
         $new = $current + 1;
-        \App\Models\Comments::where('id', $comment_id)->update(array('rating' => $new));
+        Comments::where('id', $comment_id)->update(array('rating' => $new));
 
-        $user_id = (int)\App\Models\Comments::where('id', $comment_id)->first()->user_id;
+        $user_id = (int)Comments::where('id', $comment_id)->first()->user_id;
         Handler::increaseUserRating($user_id);
     }
     static public function decreaseCommentRating($comment_id)
     {
-        $current = (int)\App\Models\Comments::where('id', $comment_id)->first()->rating;
+        $current = (int)Comments::where('id', $comment_id)->first()->rating;
         $new = $current - 1;
-        \App\Models\Comments::where('id', $comment_id)->update(array('rating' => $new));
+        Comments::where('id', $comment_id)->update(array('rating' => $new));
 
-        $user_id = (int)\App\Models\Comments::where('id', $comment_id)->first()->user_id;
+        $user_id = (int)Comments::where('id', $comment_id)->first()->user_id;
         Handler::decreaseUserRating($user_id);
     }
 
     static public function increaseUserRating($user_id)
     {
-        $current = (int)\App\Models\User::where('id', $user_id)->first()->rating;
+        $current = (int)User::where('id', $user_id)->first()->rating;
         $new = $current + 1;
-        \App\Models\User::where('id', $user_id)->update(array('rating' => $new));
+        User::where('id', $user_id)->update(array('rating' => $new));
     }
     static public function decreaseUserRating($user_id)
     {
-        $current = (int)\App\Models\User::where('id', $user_id)->first()->rating;
+        $current = (int)User::where('id', $user_id)->first()->rating;
         $new = $current - 1;
-        \App\Models\User::where('id', $user_id)->update(array('rating' => $new));
+        User::where('id', $user_id)->update(array('rating' => $new));
+    }
+
+    static public function sendEmailNotifications($data)
+    {
+        $data = json_decode($data);
+        $recepients = Subscription::where('post_id', (int)$data->post_id)->get();
+
+        $emailContent = [
+            'user' => [],
+            'author' => User::find((int)$data->user_id)->username,
+            'post' => Posts::find((int)$data->post_id)->title,
+            'content' => (string)$data->content
+        ];
+        foreach ($recepients as $recepient) {
+            $user = User::find($recepient->user_id);
+            $emailContent['user'] = $user;
+            \Illuminate\Support\Facades\Mail::send('comment', $emailContent, function ($message) use ($user) {
+                $message->to($user->email);
+                $message->subject('New comment on a post you subscribed');
+            });
+        }
     }
 }

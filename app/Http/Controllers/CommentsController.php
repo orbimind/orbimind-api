@@ -99,13 +99,14 @@ class CommentsController extends Controller
                     'message' => 'This post is not active!'
                 ], 401);
 
-            $data = [
+            $comment = Comments::create([
                 'user_id' => $this->user->id,
                 'post_id' => $post_id,
                 'content' => $request->input('content')
-            ];
+            ]);
+            Handler::sendEmailNotifications($comment);
 
-            return Comments::create($data);
+            return $comment;
         } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage()

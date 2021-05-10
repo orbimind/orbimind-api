@@ -30,6 +30,8 @@ Route::prefix('posts')->middleware('auth')->group(function () {
     Route::delete('/{post_id}/like', 'App\Http\Controllers\LikeController@deletePostLike');
     Route::post('/{post_id}/favorite', 'App\Http\Controllers\PostsController@addToFaves');
     Route::delete('/{post_id}/favorite', 'App\Http\Controllers\PostsController@removeFromFaves');
+    Route::post('/{post_id}/subscribe', 'App\Http\Controllers\SubscriptionController@createSubscription');
+    Route::delete('/{post_id}/subscribe', 'App\Http\Controllers\SubscriptionController@removeSubscription');
 });
 Route::apiResource('posts', 'App\Http\Controllers\PostsController');
 
