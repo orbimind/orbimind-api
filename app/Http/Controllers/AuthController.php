@@ -25,14 +25,17 @@ class AuthController extends Controller
             ], 400);
         }
 
-        return $user;
+        return response([
+            'message' => 'User registered. Please log in',
+            'user' => $user
+        ]);
     }
 
     public function Login(LoginRequest $request)
     {
         try {
             $credentials = $request->only(['username', 'password']);
-            if (JWTAuth::attempt($credentials)) {
+            if (JWTAuth::attempt($credentials, ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
                 $user = JWTAuth::user();
                 $token = JWTAuth::attempt($credentials);
 
