@@ -46,10 +46,13 @@ class SubscriptionController extends Controller
                 'message' => 'This post does not exist'
             ], 404);
 
-        Subscription::where('post_id', $post_id)->where('user_id', $this->user->id)->delete();
-
-        return response([
-            'message' => 'Subscription was successfully deleted'
-        ]);
+        if (Subscription::where('post_id', $post_id)->where('user_id', $this->user->id)->delete())
+            return response([
+                'message' => 'Subscription was successfully deleted'
+            ]);
+        else
+            return response([
+                'message' => 'No subscriptions found'
+            ]);
     }
 }
