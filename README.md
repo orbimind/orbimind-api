@@ -23,13 +23,13 @@
             <img src="https://miro.medium.com/max/790/1*uHzooF1EtgcKn9_XiSST4w.png" height="70">
         </a>
 </p>
-<h2>:inbox_tray: Downloads</h2>
+<h2 id="downloads">:inbox_tray: Downloads</h2>
 <ul>
-    <li><a href="">v1.2 Latest</a></li>
+    <li><a href="https://github.com/PAXANDDOS/orbimind-api/releases/download/1.2/orbimind-api-v1.2.zip">v1.2 Latest stable</a></li>
     <li><a href="https://github.com/PAXANDDOS/orbimind-api/releases/tag/1.0">v1.0 UCODE-version of Orbimind</a></li>
 </ul>
 
-<h2>:anchor: Requirements</h2>
+<h2 id="req">:anchor: Requirements</h2>
 <ul>
     <li>PHP 8.x</li>
     <li>MySQL 8.x</li>
@@ -45,8 +45,8 @@
 <p>You can easily host this API on your server if you want to. But if you only want to work with data that is used by officical Orbimind, you can skip this step.</p>
 <p><b>To host the API just follow these steps:</b></p>
 <ol>
-    <li>Check the requirements :point_up:</li>
-    <li><a href="#">Download the latest version</a></li>
+    <li><a href="#req">Check the requirements</a> :point_up:</li>
+    <li><a href="#downloads">Download the latest version</a></li>
     <li>Open folder in your terminal and run <code>composer install</code></li>
     <li>Create your database</li>
     <li>Create <code>.env</code> file and fill it with your data accordingly to <code>.env.example</code> file</li>
@@ -58,7 +58,7 @@
 <h2>:key: Using the API</h2>
 <p>If you want to use my API directly, without interacting with orbimind-react, you are very welcome!</p>
 <p>
-You can send API requests directly from your JS file using the fetch function, or if you wanna just test some things you can use Insomnia or Postman! If so, you probably should use Insomnia because I have prepared a collection file just for you!<br>
+You can send API requests directly from your JS file using the fetch function, or if you wanna just test some things you can use Insomnia or Postman! If so, you probably should use Insomnia because I have prepared <a href="https://github.com/PAXANDDOS/orbimind-api/releases/download/1.2/Insomnia_Orbimind-public.json">a collection file just for you!</a><br>
 If you are using JavaScript, you should set request header properties <code>Content-Type</code> and <code>Accept</code> to <code>application/json</code> and you are all set
 </p>
 <p>
