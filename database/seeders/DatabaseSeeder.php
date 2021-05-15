@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->seedCategories(DB::table('categories')); // Seeding 10 categories
         $this->seedPosts(DB::table('posts'));           // Seeding 5 posts
         $this->seedComments(DB::table('comments'));     // Seeding 10 comments
-        //$this->seedLikes(DB::table('likes'));           // Seeding 18 likes
+        $this->seedLikes(DB::table('likes'));           // Seeding 18 likes
     }
 
     protected function seedUsers($users)

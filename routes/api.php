@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Authorization module
+ */
 Route::prefix('auth')->group(function () {
     Route::post('/register', 'App\Http\Controllers\AuthController@Register');
     Route::post('/login', 'App\Http\Controllers\AuthController@Login');
@@ -12,6 +15,10 @@ Route::prefix('auth')->group(function () {
     Route::get('/password-reset/{token}/remove', 'App\Http\Controllers\PasswordResetsController@RemoveRequestPassword');
 });
 
+
+/**
+ * User control module
+ */
 Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('/me', 'App\Http\Controllers\UserController@user');
     Route::post('/me/update', 'App\Http\Controllers\UserController@userUpdate');
@@ -21,11 +28,17 @@ Route::prefix('users')->middleware('auth')->group(function () {
 });
 Route::apiResource('users', 'App\Http\Controllers\UserController');
 
-Route::prefix('posts')->middleware('auth')->group(function () {
+
+/**
+ * Posts control module
+ */
+Route::prefix('posts')->group(function () {
     Route::get('/{post_id}/categories', 'App\Http\Controllers\CategoriesController@showCategories');
     Route::get('/{post_id}/comments', 'App\Http\Controllers\CommentsController@showComments');
-    Route::post('/{post_id}/comments', 'App\Http\Controllers\CommentsController@createComment');
     Route::get('/{post_id}/like', 'App\Http\Controllers\LikeController@showPostLikes');
+});
+Route::prefix('posts')->middleware('auth')->group(function () {
+    Route::post('/{post_id}/comments', 'App\Http\Controllers\CommentsController@createComment');
     Route::post('/{post_id}/like', 'App\Http\Controllers\LikeController@createPostLike');
     Route::delete('/{post_id}/like', 'App\Http\Controllers\LikeController@deletePostLike');
     Route::post('/{post_id}/favorite', 'App\Http\Controllers\PostsController@addToFaves');
@@ -35,16 +48,30 @@ Route::prefix('posts')->middleware('auth')->group(function () {
 });
 Route::apiResource('posts', 'App\Http\Controllers\PostsController');
 
-Route::prefix('categories')->middleware('auth')->group(function () {
+
+/**
+ * Category control module
+ */
+Route::prefix('categories')->group(function () {
     Route::get('/{category_id}/posts', 'App\Http\Controllers\PostsController@showPosts');
 });
 Route::apiResource('categories', 'App\Http\Controllers\CategoriesController');
 
-Route::prefix('comments')->middleware('auth')->group(function () {
+
+/**
+ * Comment control module
+ */
+Route::prefix('comments')->group(function () {
     Route::get('/{comment_id}/like', 'App\Http\Controllers\LikeController@showCommentLikes');
+});
+Route::prefix('comments')->middleware('auth')->group(function () {
     Route::post('/{comment_id}/like', 'App\Http\Controllers\LikeController@createCommentLike');
     Route::delete('/{comment_id}/like', 'App\Http\Controllers\LikeController@deleteCommentLike');
 });
 Route::apiResource('comments', 'App\Http\Controllers\CommentsController');
 
+
+/**
+ * Like control module
+ */
 Route::apiResource('like', 'App\Http\Controllers\LikeController');

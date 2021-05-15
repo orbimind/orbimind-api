@@ -45,12 +45,10 @@ class CommentsController extends Controller
                 'message' => 'Invalid comment'
             ], 404);
 
-        if (!Handler::authenticatedAsAdmin($this->user)) {
-            if ($data->user_id != $this->user->id)
-                return response([
-                    'message' => 'You can not change this comment!'
-                ], 403);
-        }
+        if (!Handler::authenticatedAsAdmin($this->user) && $data->user_id != $this->user->id)
+            return response([
+                'message' => 'You can not change this comment!'
+            ], 403);
 
         $data->update($request->only(['content']));
         return $data;
@@ -80,7 +78,7 @@ class CommentsController extends Controller
 
         if (!$data =  Comments::where('post_id', $post_id)->get()->toArray())
             return response([
-                'message' => 'Invalid post or no comments'
+                'message' => 'No comments'
             ], 404);
 
         return $data;
@@ -93,7 +91,6 @@ class CommentsController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-
             if (!Handler::postActive($post_id))
                 return response()->json([
                     'message' => 'This post is not active!'

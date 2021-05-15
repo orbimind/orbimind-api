@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoriesResource;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 
@@ -11,10 +10,6 @@ class CategoriesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->only([
-            'index',
-            'show'
-        ]);
         $this->middleware('auth.admin')->only([
             'store',
             'update',
@@ -71,16 +66,14 @@ class CategoriesController extends Controller
     public function showCategories($post_id)
     {
         try {
-            if (!$data =  DB::table('posts')->where('id', $post_id)->first()->category_id) {
+            if (!$data =  \App\Models\Posts::find($post_id)->category_id)
                 return response([
                     'message' => 'Invalid post!'
                 ], 404);
-            }
 
             $result = [];
-            $data = json_decode($data);
             foreach ($data as $value) {
-                if (!$title = Categories::where('id', $value)->first()->title)
+                if (!$title = Categories::find($value)->title)
                     continue;
                 else
                     array_push($result, $title);

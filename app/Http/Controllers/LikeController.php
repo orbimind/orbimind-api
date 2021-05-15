@@ -31,11 +31,6 @@ class LikeController extends Controller
                 'message' => 'Invalid post or no likes'
             ], 404);
 
-        if (!Handler::authenticatedAsAdmin($this->user) && \App\Models\Posts::find($post_id)->status == false)
-            return response([
-                'message' => 'You can not view these likes'
-            ], 403);
-
         return LikeResource::collection($data);
     }
 
@@ -46,16 +41,8 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (\App\Models\Posts::find($post_id)->status == false)
-                return response([
-                    'message' => 'This post is not active'
-                ], 403);
-            if (Handler::duplicateLikeOnPost($this->user->id, $post_id)) {
-                $this->deletePostLike($request, $post_id);
-                return response([
-                    'message' => $request->input('type') . ' deleted'
-                ]);
-            }
+            if (Handler::duplicateLikeOnPost($this->user->id, $post_id))
+                return $this->deletePostLike($request, $post_id);
 
             $data = [
                 'user_id' => $this->user->id,
@@ -124,12 +111,8 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (Handler::duplicateLikeOnComment($this->user->id, $comment_id)) {
-                $this->deleteCommentLike($request, $comment_id);
-                return response([
-                    'message' => $request->input('type') . ' deleted'
-                ]);
-            }
+            if (Handler::duplicateLikeOnComment($this->user->id, $comment_id))
+                return $this->deleteCommentLike($request, $comment_id);
 
             $data = [
                 'user_id' => $this->user->id,
@@ -161,11 +144,10 @@ class LikeController extends Controller
                     'message' => 'This comment does not exist!'
                 ], 404);
 
-            if (!$data = Like::where('comment_id', $comment_id)->where('user_id', $this->user->id)->where('type', $request->input('type'))->first()) {
+            if (!$data = Like::where('comment_id', $comment_id)->where('user_id', $this->user->id)->where('type', $request->input('type'))->first())
                 return response()->json([
                     'message' => 'Nothing to remove!'
                 ], 404);
-            }
 
             if (Like::where('comment_id', $comment_id)->first()->type == 'like')
                 Handler::decreaseCommentRating($comment_id);

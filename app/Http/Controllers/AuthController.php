@@ -17,6 +17,7 @@ class AuthController extends Controller
                 'username' => $request->input('username'),
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
+                'image' => 'avatars/avatar' . rand(1, 10) . '.png',
                 'password' => Hash::make($request->input('password'))
             ]);
         } catch (\Exception $e) {
@@ -46,10 +47,11 @@ class AuthController extends Controller
                     'expires_in' => JWTAuth::factory()->getTTL() * 60,
                     'user' => $user
                 ]);
-            } else
-                return response([
-                    'message' => 'Incorrect password!'
-                ], 400);
+            }
+
+            return response([
+                'message' => 'Incorrect password!'
+            ], 400);
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
             return response([
                 'message' => $e->getMessage()

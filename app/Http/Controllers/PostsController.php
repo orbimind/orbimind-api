@@ -15,9 +15,7 @@ class PostsController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->only([
-            'index',
             'store',
-            'show',
             'update',
             'destroy'
         ]);
@@ -27,6 +25,11 @@ class PostsController extends Controller
     public function index(PostsFilter $filter)
     {
         $posts = Posts::filter($filter)->get();
+
+        if (!$this->user) {
+            return PostsResource::collection($posts->where('status', true));
+        }
+
         if (!Handler::authenticatedAsAdmin($this->user)) {
             $data = $posts->where('user_id', $this->user->id)->where('status', false);
             $data = $data->merge($posts->where('status', true));
@@ -62,11 +65,10 @@ class PostsController extends Controller
         }
         $data = Posts::find($id);
 
-        if (!Handler::authenticatedAsAdmin($this->user)) {
-            if ($data->status == false && $data->user_id != $this->user->id)
-                return response([
-                    'message' => 'You can not view this post!'
-                ], 403);
+        if (!$this->user && $data->status == false) {
+            return response([
+                'message' => 'You can not view this post!'
+            ], 403);
         }
 
         return $data;
@@ -115,27 +117,15 @@ class PostsController extends Controller
                 'message' => 'Invalid category!'
             ], 404);
 
-        if (!Handler::authenticatedAsAdmin($this->user)) {
-            $data = Posts::whereJsonContains('category_id', (int)$category_id)->get()->where('user_id', $this->user->id)->where('status', false);
-            return $data->merge(Posts::whereJsonContains('category_id', (int)$category_id)->get()->where('status', true));
-        } else {
-            return Posts::whereJsonContains('category_id', (int)$category_id)->get();
-        }
+        return Posts::whereJsonContains('category_id', (int)$category_id)->get();
     }
 
     public function addToFaves($post_id)
     {
-        if (!$post = Posts::find($post_id))
+        if (!Posts::find($post_id))
             return response([
                 'message' => 'This post does not exist'
             ], 404);
-
-        if (!Handler::authenticatedAsAdmin($this->user)) {
-            if ($post->status == false && $this->user->id != $post->user_id)
-                return response([
-                    'message' => 'You can not add this post to favorites'
-                ], 401);
-        }
 
         $faves = $this->user->faves;
         if ($faves == null) {

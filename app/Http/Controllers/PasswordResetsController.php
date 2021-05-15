@@ -52,18 +52,16 @@ class PasswordResetsController extends Controller
     public function ResetPassword(ResetPasswordRequest $request, $token)
     {
         try {
-            if (!$data = PasswordResets::where('token', $token)->first()) {
+            if (!$data = PasswordResets::where('token', $token)->first())
                 return response([
                     'message' => 'Invalid token!'
                 ], 400);
-            }
 
             /** @var User $user */
-            if (!$user = User::where('email', $data->email)->first()) {
+            if (!$user = User::where('email', $data->email)->first())
                 return response([
                     'message' => 'User does not exist!'
                 ], 404);
-            }
 
             $user->password = Hash::make($request->input('password'));
             $user->save();
@@ -81,14 +79,14 @@ class PasswordResetsController extends Controller
     }
     public function RemoveRequestPassword($token)
     {
-        if ($data = PasswordResets::where('token', $token)->first()) {
-            $data->delete();
-            return response([
-                'message' => "Password reset token was successfully deleted. Thank you for your cooperation!"
-            ]);
-        } else
+        if (!$data = PasswordResets::where('token', $token)->first())
             return response([
                 'message' => "Password reset token was not found!"
             ]);
+
+        $data->delete();
+        return response([
+            'message' => "Password reset token was successfully deleted. Thank you for your cooperation!"
+        ]);
     }
 }
