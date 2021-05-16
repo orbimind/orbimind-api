@@ -10,11 +10,11 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_general_ci';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_general_ci';
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('title', 64)->charset('utf8')->collation('utf8_general_ci');
+            $table->string('title', 64)->charset('utf8mb4')->collation('utf8mb4_general_ci');
             $table->integer('rating')->default(0);
             $table->boolean('status')->default(TRUE);
             $table->string('content', 4096)->charset('utf8mb4')->collation('utf8mb4_general_ci');

@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
         \App\Http\Resources\PostsResource::withoutWrapping();
         \App\Http\Resources\LikeResource::withoutWrapping();
         \App\Http\Resources\CategoriesResource::withoutWrapping();
+        \Illuminate\Support\Facades\Schema::defaultStringLength(191);
     }
 }

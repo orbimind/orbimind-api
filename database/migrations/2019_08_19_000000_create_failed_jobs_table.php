@@ -15,14 +15,14 @@ class CreateFailedJobsTable extends Migration
     {
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_general_ci';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_general_ci';
             $table->id();
-            $table->string('uuid')->unique()->charset('utf8')->collation('utf8_general_ci');
-            $table->text('connection')->charset('utf8')->collation('utf8_general_ci');
-            $table->text('queue')->charset('utf8')->collation('utf8_general_ci');
-            $table->longText('payload')->charset('utf8')->collation('utf8_general_ci');
-            $table->longText('exception')->charset('utf8')->collation('utf8_general_ci');
+            $table->string('uuid')->unique()->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->text('connection')->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->text('queue')->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->longText('payload')->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->longText('exception')->charset('utf8mb4')->collation('utf8mb4_general_ci');
 
             $table->timestamp('failed_at')->useCurrent();
         });

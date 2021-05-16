@@ -10,13 +10,13 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_general_ci';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_general_ci';
             $table->id();
-            $table->string('username', 10)->unique()->charset('utf8')->collation('utf8_general_ci');
-            $table->string('password')->charset('utf8')->collation('utf8_general_ci');
-            $table->string('name', 20)->charset('utf8')->collation('utf8_general_ci');
-            $table->string('email', 64)->unique()->charset('utf8')->collation('utf8_general_ci');
+            $table->string('username', 10)->unique()->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->string('password')->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->string('name', 20)->charset('utf8mb4')->collation('utf8mb4_general_ci');
+            $table->string('email', 64)->unique()->charset('utf8mb4')->collation('utf8mb4_general_ci');
             $table->string('image')->default('avatars/default.jpeg');
             $table->json('faves')->nullable();
             $table->integer('rating')->default(0);
