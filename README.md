@@ -32,7 +32,7 @@
 <h2 id="req">:anchor: Requirements</h2>
 <ul>
     <li>PHP 8.x</li>
-    <li>MySQL 8.x</li>
+    <li>MySQL 6.x</li>
     <li>Composer 2.x</li>
 </ul>
 <p>You can easily install those via Homebrew:<br>
@@ -59,7 +59,7 @@
 <p>If you want to use my API directly, without interacting with orbimind-react, you are very welcome!</p>
 <p>
 You can send API requests directly from your JS file using the fetch function, or if you wanna just test some things you can use Insomnia or Postman! If so, you probably should use Insomnia because I have prepared <a href="https://github.com/PAXANDDOS/orbimind-api/releases/download/1.2/Insomnia_Orbimind-public.json">a collection file just for you!</a><br>
-If you are using JavaScript, you should set request header properties <code>Content-Type</code> and <code>Accept</code> to <code>application/json</code> and you are all set
+If you are using JavaScript, you should set request header properties <code>Content-Type</code> and <code>Accept</code> to <code>application/json</code> and you are all set. API host is <code><a href="https://orbimind.herokuapp.com">https://orbimind.herokuapp.com</a></code>
 </p>
 <p>
     <b>Here's list of possible user API requests:</b>
