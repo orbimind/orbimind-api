@@ -21,9 +21,6 @@ class UserController extends Controller
             'update',
             'destroy',
         ]);
-        $this->middleware('auth')->only([
-            'show'
-        ]);
         $this->user = JWTAuth::user(JWTAuth::getToken());
     }
 

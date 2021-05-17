@@ -19,11 +19,11 @@ Route::prefix('auth')->group(function () {
 /**
  * User control module
  */
+Route::get('/users/{user_id}/favorites', 'App\Http\Controllers\UserController@showUserFaves');
 Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('/me', 'App\Http\Controllers\UserController@user');
     Route::post('/me/update', 'App\Http\Controllers\UserController@userUpdate');
     Route::get('/me/favorites', 'App\Http\Controllers\UserController@showMyFaves');
-    Route::get('/{user_id}/favorites', 'App\Http\Controllers\UserController@showUserFaves');
     Route::post('/avatar', 'App\Http\Controllers\UserController@uploadAvatar');
 });
 Route::apiResource('users', 'App\Http\Controllers\UserController');
