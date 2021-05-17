@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->integer('rating')->default(0);
             $table->boolean('status')->default(TRUE);
             $table->string('content', 4096)->charset('utf8mb4')->collation('utf8mb4_general_ci');
-            $table->text('category_id');
+            $table->json('category_id');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
