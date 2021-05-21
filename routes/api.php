@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
  */
 Route::prefix('auth')->group(function () {
     Route::post('/register', 'App\Http\Controllers\AuthController@Register');
-    Route::post('/login', 'App\Http\Controllers\AuthController@Login')->middleware('cors');
+    Route::post('/login', 'App\Http\Controllers\AuthController@Login');
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout')->middleware('auth');
     Route::get('/refresh', 'App\Http\Controllers\AuthController@refresh')->middleware('auth');
     Route::post('/password-reset', 'App\Http\Controllers\PasswordResetsController@ForgotPassword');
@@ -20,13 +20,13 @@ Route::prefix('auth')->group(function () {
  * User control module
  */
 Route::get('/users/{user_id}/favorites', 'App\Http\Controllers\UserController@showUserFaves');
-Route::prefix('users')->middleware(['auth', 'cors'])->group(function () {
+Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('/me', 'App\Http\Controllers\UserController@user');
     Route::post('/me/update', 'App\Http\Controllers\UserController@userUpdate');
     Route::get('/me/favorites', 'App\Http\Controllers\UserController@showMyFaves');
     Route::post('/avatar', 'App\Http\Controllers\UserController@uploadAvatar');
 });
-Route::apiResource('users', 'App\Http\Controllers\UserController')->middleware('cors');
+Route::apiResource('users', 'App\Http\Controllers\UserController');
 
 
 /**
@@ -37,7 +37,7 @@ Route::prefix('posts')->group(function () {
     Route::get('/{post_id}/comments', 'App\Http\Controllers\CommentsController@showComments');
     Route::get('/{post_id}/like', 'App\Http\Controllers\LikeController@showPostLikes');
 });
-Route::prefix('posts')->middleware(['auth', 'cors'])->group(function () {
+Route::prefix('posts')->middleware('auth')->group(function () {
     Route::post('/{post_id}/comments', 'App\Http\Controllers\CommentsController@createComment');
     Route::post('/{post_id}/like', 'App\Http\Controllers\LikeController@createPostLike');
     Route::delete('/{post_id}/like', 'App\Http\Controllers\LikeController@deletePostLike');
@@ -46,7 +46,7 @@ Route::prefix('posts')->middleware(['auth', 'cors'])->group(function () {
     Route::post('/{post_id}/subscribe', 'App\Http\Controllers\SubscriptionController@createSubscription');
     Route::delete('/{post_id}/subscribe', 'App\Http\Controllers\SubscriptionController@removeSubscription');
 });
-Route::apiResource('posts', 'App\Http\Controllers\PostsController')->middleware('cors');
+Route::apiResource('posts', 'App\Http\Controllers\PostsController');
 
 
 /**
@@ -55,7 +55,7 @@ Route::apiResource('posts', 'App\Http\Controllers\PostsController')->middleware(
 Route::prefix('categories')->group(function () {
     Route::get('/{category_id}/posts', 'App\Http\Controllers\PostsController@showPosts');
 });
-Route::apiResource('categories', 'App\Http\Controllers\CategoriesController')->middleware('cors');
+Route::apiResource('categories', 'App\Http\Controllers\CategoriesController');
 
 
 /**
@@ -64,14 +64,14 @@ Route::apiResource('categories', 'App\Http\Controllers\CategoriesController')->m
 Route::prefix('comments')->group(function () {
     Route::get('/{comment_id}/like', 'App\Http\Controllers\LikeController@showCommentLikes');
 });
-Route::prefix('comments')->middleware(['auth', 'cors'])->group(function () {
+Route::prefix('comments')->middleware('auth')->group(function () {
     Route::post('/{comment_id}/like', 'App\Http\Controllers\LikeController@createCommentLike');
     Route::delete('/{comment_id}/like', 'App\Http\Controllers\LikeController@deleteCommentLike');
 });
-Route::apiResource('comments', 'App\Http\Controllers\CommentsController')->middleware('cors');
+Route::apiResource('comments', 'App\Http\Controllers\CommentsController');
 
 
 /**
  * Like control module
  */
-Route::apiResource('like', 'App\Http\Controllers\LikeController')->middleware('cors');
+Route::apiResource('like', 'App\Http\Controllers\LikeController');
