@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'fruitcake/laravel-cors'],
 
     'allowed_methods' => ['*'],
 
@@ -23,11 +23,11 @@ return [
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['Content-Type', 'Accept', 'x-custom-header', 'Authentication'],
 
-    'exposed_headers' => [],
+    'exposed_headers' => ['x-custom-response-header'],
 
-    'max_age' => 0,
+    'max_age' => 60,
 
     'supports_credentials' => false,
 
