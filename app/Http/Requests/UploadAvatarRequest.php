@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AvatarRequest extends FormRequest
+class UploadAvatarRequest extends FormRequest
 {
     public function authorize()
     {

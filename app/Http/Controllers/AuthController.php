@@ -17,7 +17,7 @@ class AuthController extends Controller
                 'username' => $request->input('username'),
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
-                'image' => 'avatars/avatar' . rand(1, 10) . '.png',
+                'image' => 'avatar' . rand(1, 10) . '_orbimind_H265P.png',
                 'password' => Hash::make($request->input('password'))
             ]);
         } catch (\Exception $e) {

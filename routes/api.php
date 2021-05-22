@@ -20,6 +20,7 @@ Route::prefix('auth')->group(function () {
  * User control module
  */
 Route::get('/users/{user_id}/favorites', 'App\Http\Controllers\UserController@showUserFaves');
+Route::get('/users/avatar/{path}', 'App\Http\Controllers\UserController@downloadAvatar');
 Route::prefix('users')->middleware('auth')->group(function () {
     Route::get('/me', 'App\Http\Controllers\UserController@user');
     Route::post('/me/update', 'App\Http\Controllers\UserController@userUpdate');

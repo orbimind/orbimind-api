@@ -12,6 +12,7 @@
         "kblais/query-filter": "^2.0",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {

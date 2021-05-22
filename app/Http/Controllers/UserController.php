@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\AvatarRequest;
+use App\Http\Requests\UploadAvatarRequest;
+use App\Http\Requests\DownloadAvatarRequest;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\Handler;
 use App\Models\User;
@@ -101,14 +102,28 @@ class UserController extends Controller
         }
     }
 
-    public function uploadAvatar(AvatarRequest $request)
+    public function uploadAvatar(UploadAvatarRequest $request)
     {
         if ($request->file('image')) {
             $user = User::find(JWTAuth::user(JWTAuth::getToken())->id);
-            if ($user->image != 'avatars/default.jpeg')
-                \Illuminate\Support\Facades\Storage::delete('public/' . $user->image);
+            // if (
+            //     $user->image != 'default_orbimind_H265P.jpeg'
+            //     && $user->image != 'avatar1_orbimind_H265P.png'
+            //     && $user->image != 'avatar2_orbimind_H265P.png'
+            //     && $user->image != 'avatar3_orbimind_H265P.png'
+            //     && $user->image != 'avatar4_orbimind_H265P.png'
+            //     && $user->image != 'avatar5_orbimind_H265P.png'
+            //     && $user->image != 'avatar6_orbimind_H265P.png'
+            //     && $user->image != 'avatar7_orbimind_H265P.png'
+            //     && $user->image != 'avatar8_orbimind_H265P.png'
+            //     && $user->image != 'avatar9_orbimind_H265P.png'
+            //     && $user->image != 'avatar10_orbimind_H265P.png'
+            // ) {
+            //     \Illuminate\Support\Facades\Storage::delete('public/' . $user->image);
+            // }
+
             $user->update([
-                'image' => $image = $request->file('image')->storeAs('avatars', $user->id . $request->file('image')->getClientOriginalName(), 'public')
+                'image' => $image = explode('/', $request->file('image')->storeAs('avatars', $user->id . $request->file('image')->getClientOriginalName(), 's3'))[1]
             ]);
 
             return response([
@@ -116,6 +131,10 @@ class UserController extends Controller
                 "image" => $image
             ]);
         }
+    }
+    public function downloadAvatar($object)
+    {
+        return response()->download(storage_path('app/public/avatars/' . $object), $object);
     }
 
     public function showMyFaves()
