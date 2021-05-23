@@ -49,7 +49,7 @@ class PostsFilter extends QueryFilter
 
     public function order(string $value)
     {
-        $sort = explode('+', $value);
+        $sort = explode('$', $value);
         switch ($sort[0]) {
             case 'date':
                 return $this->orderBy('created_at', (string)$sort[1]);
