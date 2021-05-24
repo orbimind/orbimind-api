@@ -14,7 +14,7 @@ class SubscriptionController extends Controller
         $this->user = JWTAuth::user(JWTAuth::getToken());
     }
 
-    public function createSubscription($post_id)
+    public function createSubscription(int $post_id)
     {
         if (!$post = Posts::find($post_id))
             return response([
@@ -37,7 +37,7 @@ class SubscriptionController extends Controller
         ]);
     }
 
-    public function removeSubscription($post_id)
+    public function removeSubscription(int $post_id)
     {
         if (!Posts::find($post_id))
             return response([

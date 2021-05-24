@@ -49,7 +49,7 @@ class PasswordResetsController extends Controller
         }
     }
 
-    public function ResetPassword(ResetPasswordRequest $request, $token)
+    public function ResetPassword(ResetPasswordRequest $request, mixed $token)
     {
         try {
             if (!$data = PasswordResets::where('token', $token)->first())
@@ -77,7 +77,7 @@ class PasswordResetsController extends Controller
             'message' => 'Password reset successful'
         ]);
     }
-    public function RemoveRequestPassword($token)
+    public function RemoveRequestPassword(mixed $token)
     {
         if (!$data = PasswordResets::where('token', $token)->first())
             return response([

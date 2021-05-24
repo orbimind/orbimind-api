@@ -56,7 +56,7 @@ class PostsController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         if (!Handler::postExists($id)) {
             return response([
@@ -74,7 +74,7 @@ class PostsController extends Controller
         return $data;
     }
 
-    public function update(UpdatePostRequest $request, $id)
+    public function update(UpdatePostRequest $request, int $id)
     {
         if (!$data = Posts::find($id))
             return response([
@@ -92,7 +92,7 @@ class PostsController extends Controller
         return $data;
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         if (!Handler::postExists($id))
             return response([
@@ -110,17 +110,17 @@ class PostsController extends Controller
         return Posts::destroy($id);
     }
 
-    public function showPosts($category_id)
+    public function showPosts(int $category_id)
     {
         if (!Handler::categoryExists($category_id))
             return response([
                 'message' => 'Invalid category!'
             ], 404);
 
-        return Posts::whereJsonContains('category_id', (int)$category_id)->get();
+        return Posts::whereJsonContains('category_id', $category_id)->get();
     }
 
-    public function addToFaves($post_id)
+    public function addToFaves(int $post_id)
     {
         if (!Posts::find($post_id))
             return response([
@@ -130,7 +130,7 @@ class PostsController extends Controller
         $faves = $this->user->faves;
         if ($faves == null) {
             $faves = array();
-            array_push($faves, (int)$post_id);
+            array_push($faves, $post_id);
             \App\Models\User::find($this->user->id)->update(['faves' => $faves]);
             return response([
                 'message' => 'Post successfully added to favorites'
@@ -141,7 +141,7 @@ class PostsController extends Controller
             if ($key == $post_id)
                 return $this->removeFromFaves($post_id);
         }
-        array_push($faves, (int)$post_id);
+        array_push($faves, $post_id);
         \App\Models\User::find($this->user->id)->update(['faves' => $faves]);
 
         return response([
@@ -149,7 +149,7 @@ class PostsController extends Controller
         ]);
     }
 
-    public function removeFromFaves($post_id)
+    public function removeFromFaves(int $post_id)
     {
         if (!Posts::find($post_id))
             return response([
@@ -163,7 +163,7 @@ class PostsController extends Controller
 
         $result = array();
         foreach ($faves as $key) {
-            if ($key == (int)$post_id)
+            if ($key == $post_id)
                 continue;
             array_push($result, (int)$key);
         }

@@ -28,7 +28,7 @@ class CommentsController extends Controller
         return Comments::all();
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         if (Comments::find($id) === null)
             return response([
@@ -38,7 +38,7 @@ class CommentsController extends Controller
         return Comments::find($id);
     }
 
-    public function update(UpdateCommentRequest $request, $id)
+    public function update(UpdateCommentRequest $request, int $id)
     {
         if (!$data = Comments::find($id))
             return response([
@@ -54,7 +54,7 @@ class CommentsController extends Controller
         return $data;
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         if (!$data = Comments::find($id))
             return response([
@@ -69,7 +69,7 @@ class CommentsController extends Controller
         return Comments::destroy($id);
     }
 
-    public function showComments($post_id)
+    public function showComments(int $post_id)
     {
         if (!Handler::postExists($post_id))
             return response()->json([
@@ -84,7 +84,7 @@ class CommentsController extends Controller
         return $data;
     }
 
-    public function createComment(CreateCommentRequest $request, $post_id)
+    public function createComment(CreateCommentRequest $request, int $post_id)
     {
         try {
             if (!Handler::postExists($post_id))

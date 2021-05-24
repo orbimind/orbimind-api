@@ -32,7 +32,7 @@ class CategoriesController extends Controller
         return Categories::create($request->all());
     }
 
-    public function show($category_id)
+    public function show(int $category_id)
     {
         if (Categories::find($category_id) === null)
             return response([
@@ -42,7 +42,7 @@ class CategoriesController extends Controller
         return Categories::find($category_id);
     }
 
-    public function update(Request $request, $category_id)
+    public function update(Request $request, int $category_id)
     {
         if (!$data = Categories::find($category_id))
             return response([
@@ -53,7 +53,7 @@ class CategoriesController extends Controller
         return $data;
     }
 
-    public function destroy($category_id)
+    public function destroy(int $category_id)
     {
         if (Categories::find($category_id) === null)
             return response([
@@ -63,7 +63,7 @@ class CategoriesController extends Controller
         return Categories::destroy($category_id);
     }
 
-    public function showCategories($post_id)
+    public function showCategories(int $post_id)
     {
         try {
             if (!$data =  \App\Models\Posts::find($post_id)->category_id)

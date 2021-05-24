@@ -24,7 +24,7 @@ class LikeController extends Controller
         return Like::all();
     }
 
-    public function showPostLikes($post_id)
+    public function showPostLikes(int $post_id)
     {
         if (!$data = Like::where('post_id', $post_id)->get()->all())
             return response([
@@ -34,7 +34,7 @@ class LikeController extends Controller
         return LikeResource::collection($data);
     }
 
-    public function createPostLike(LikePostRequest $request, $post_id)
+    public function createPostLike(LikePostRequest $request, int $post_id)
     {
         try {
             if (!Handler::postExists($post_id))
@@ -66,7 +66,7 @@ class LikeController extends Controller
         }
     }
 
-    public function deletePostLike(LikePostRequest $request, $post_id)
+    public function deletePostLike(LikePostRequest $request, int $post_id)
     {
         try {
             if (!Handler::postExists($post_id))
@@ -94,7 +94,7 @@ class LikeController extends Controller
         }
     }
 
-    public function showCommentLikes($comment_id)
+    public function showCommentLikes(int $comment_id)
     {
         if (!$data = Like::where('comment_id', $comment_id)->get()->all())
             return response([
@@ -104,7 +104,7 @@ class LikeController extends Controller
         return LikeResource::collection($data);
     }
 
-    public function createCommentLike(LikeCommentRequest $request, $comment_id)
+    public function createCommentLike(LikeCommentRequest $request, int $comment_id)
     {
         try {
             if (!Handler::commentExists($comment_id))
@@ -136,7 +136,7 @@ class LikeController extends Controller
         }
     }
 
-    public function deleteCommentLike(LikeCommentRequest $request, $comment_id)
+    public function deleteCommentLike(LikeCommentRequest $request, int $comment_id)
     {
         try {
             if (!Handler::commentExists($comment_id))

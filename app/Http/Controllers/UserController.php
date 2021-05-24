@@ -35,17 +35,25 @@ class UserController extends Controller
         return User::create($request->all());
     }
 
-    public function show($id)
+    public function show(mixed $id)
     {
-        if (User::find($id) === null)
+        if (is_numeric($id)) {
+            if (User::find($id) === null)
+                return response([
+                    'message' => 'User does not exist'
+                ], 404);
+
+            return User::find($id);
+        }
+        if (!$user = User::where('username', $id)->first())
             return response([
                 'message' => 'User does not exist'
             ], 404);
 
-        return User::find($id);
+        return $user;
     }
 
-    public function update(UserUpdateRequest $request, $id)
+    public function update(UserUpdateRequest $request, int $id)
     {
         if (!$data = User::find($id))
             return response([
@@ -56,7 +64,7 @@ class UserController extends Controller
         return $data;
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         if (User::find($id) === null)
             return response([
@@ -132,10 +140,6 @@ class UserController extends Controller
             ]);
         }
     }
-    public function downloadAvatar($object)
-    {
-        return response()->download(storage_path('app/public/avatars/' . $object), $object);
-    }
 
     public function showMyFaves()
     {
@@ -163,7 +167,7 @@ class UserController extends Controller
         return response($result);
     }
 
-    public function showUserFaves($id)
+    public function showUserFaves(int $id)
     {
         $user = $this->show($id);
         if ($user->faves == null)
