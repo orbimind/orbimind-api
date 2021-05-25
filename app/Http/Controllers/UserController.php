@@ -115,12 +115,11 @@ class UserController extends Controller
         if ($request->file('image')) {
             $user = User::find(JWTAuth::user(JWTAuth::getToken())->id);
 
-            $avatarName =  $user->id . $request->file('image')->getClientOriginalName();
-            if (\Illuminate\Support\Facades\Storage::disk('s3')->exists('avatars/' . $avatarName))
-                \Illuminate\Support\Facades\Storage::disk('s3')->delete('avatars/' . $avatarName);
+            if (\Illuminate\Support\Facades\Storage::disk('s3')->exists('avatars/' . $user->image))
+                \Illuminate\Support\Facades\Storage::disk('s3')->delete('avatars/' . $user->image);
 
             $user->update([
-                'image' => $image = explode('/', $request->file('image')->storeAs('avatars', $avatarName, 's3'))[1]
+                'image' => $image = explode('/', $request->file('image')->storeAs('avatars', $user->id . $request->file('image')->getClientOriginalName(), 's3'))[1]
             ]);
 
             return response([
@@ -139,17 +138,9 @@ class UserController extends Controller
             ], 404);
 
         $result = array();
-        foreach ($user->faves as $key) {
-            $post = Posts::find($key);
-            if (!Handler::authenticatedAsAdmin($this->user)) {
-                if ($post->status == true) {
-                    array_push($result, $post);
-                    continue;
-                } else if ($post->status == false && $this->user->id == $post->user_id) {
-                    array_push($result, $post);
-                    continue;
-                } else continue;
-            }
+        foreach ($this->user->faves as $key) {
+            if (!$post = Posts::find($key))
+                continue;
             array_push($result, $post);
         }
 
