@@ -115,7 +115,20 @@ class UserController extends Controller
         if ($request->file('image')) {
             $user = User::find(JWTAuth::user(JWTAuth::getToken())->id);
 
-            if (\Illuminate\Support\Facades\Storage::disk('s3')->exists('avatars/' . $user->image))
+            if (
+                \Illuminate\Support\Facades\Storage::disk('s3')->exists('avatars/' . $user->image)
+                && $user->image != 'avatar1_orbimind_H265P.png'
+                && $user->image != 'avatar2_orbimind_H265P.png'
+                && $user->image != 'avatar3_orbimind_H265P.png'
+                && $user->image != 'avatar4_orbimind_H265P.png'
+                && $user->image != 'avatar5_orbimind_H265P.png'
+                && $user->image != 'avatar6_orbimind_H265P.png'
+                && $user->image != 'avatar7_orbimind_H265P.png'
+                && $user->image != 'avatar8_orbimind_H265P.png'
+                && $user->image != 'avatar9_orbimind_H265P.png'
+                && $user->image != 'avatar10_orbimind_H265P.png'
+                && $user->image != 'default_orbimind_H265P.png'
+            )
                 \Illuminate\Support\Facades\Storage::disk('s3')->delete('avatars/' . $user->image);
 
             $user->update([
