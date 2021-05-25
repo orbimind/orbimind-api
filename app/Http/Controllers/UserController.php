@@ -114,8 +114,13 @@ class UserController extends Controller
     {
         if ($request->file('image')) {
             $user = User::find(JWTAuth::user(JWTAuth::getToken())->id);
+
+            $avatarName =  $user->id . $request->file('image')->getClientOriginalName();
+            if (\Illuminate\Support\Facades\Storage::disk('s3')->exists('avatars/' . $avatarName))
+                \Illuminate\Support\Facades\Storage::disk('s3')->delete('avatars/' . $avatarName);
+
             $user->update([
-                'image' => $image = explode('/', $request->file('image')->storeAs('avatars', $user->id . $request->file('image')->getClientOriginalName(), 's3'))[1]
+                'image' => $image = explode('/', $request->file('image')->storeAs('avatars', $avatarName, 's3'))[1]
             ]);
 
             return response([
