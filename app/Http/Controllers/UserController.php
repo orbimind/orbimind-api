@@ -127,7 +127,7 @@ class UserController extends Controller
                 && $user->image != 'avatar8_orbimind_H265P.png'
                 && $user->image != 'avatar9_orbimind_H265P.png'
                 && $user->image != 'avatar10_orbimind_H265P.png'
-                && $user->image != 'default_orbimind_H265P.png'
+                && $user->image != 'default_orbimind_H265P.jpeg'
             )
                 \Illuminate\Support\Facades\Storage::disk('s3')->delete('avatars/' . $user->image);
 

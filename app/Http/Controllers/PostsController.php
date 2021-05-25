@@ -30,12 +30,7 @@ class PostsController extends Controller
             return PostsResource::collection($posts->where('status', true));
         }
 
-        if (!Handler::authenticatedAsAdmin($this->user)) {
-            $data = $posts->where('user_id', $this->user->id)->where('status', false);
-            $data = $data->merge($posts->where('status', true));
-            return PostsResource::collection($data);
-        } else
-            return PostsResource::collection($posts);
+        return PostsResource::collection($posts);
     }
 
     public function store(CreatePostRequest $request)

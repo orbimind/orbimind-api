@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoriesResource;
+use App\QueryFilters\CategoriesFilter;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 
@@ -17,9 +18,10 @@ class CategoriesController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(CategoriesFilter $filter)
     {
-        return CategoriesResource::collection(Categories::all());
+        $categories = Categories::filter($filter)->get();
+        return CategoriesResource::collection($categories);
     }
 
     public function store(Request $request)
