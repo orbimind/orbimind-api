@@ -6,7 +6,6 @@ use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\URL;
 use App\Models\PasswordResets;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -27,12 +26,14 @@ class PasswordResetsController extends Controller
                     'token' => $token
                 ]);
 
+            $protocol = explode('//', $request->header('referer'))[0];
+            $host = explode('//', $request->header('referer'))[1];
             $data = [
                 'username' => $user->username,
                 'name' => $user->name,
                 'role' => $user->role,
-                'resetLink' => URL::current() . '/' . $token,
-                'removeLink' => URL::current() . '/' . $token . '/remove'
+                'resetLink' => $protocol . '//' . $host  . 'forgot-password/' . $token,
+                'removeLink' => $protocol . '//' . $host  . 'forgot-password/' . $token . '/remove'
             ];
             Mail::send('forgot', $data, function ($message) use ($user) {
                 $message->to($user->email);
