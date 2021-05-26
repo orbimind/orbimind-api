@@ -12,9 +12,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->seedUsers(DB::table('users'));           // Seeding 3 users
         $this->seedCategories(DB::table('categories')); // Seeding 10 categories
-        $this->seedPosts(DB::table('posts'));           // Seeding 5 posts
-        $this->seedComments(DB::table('comments'));     // Seeding 10 comments
-        $this->seedLikes(DB::table('likes'));           // Seeding 18 likes
+        // $this->seedPosts(DB::table('posts'));           // Seeding 5 posts
+        // $this->seedComments(DB::table('comments'));     // Seeding 10 comments
+        // $this->seedLikes(DB::table('likes'));           // Seeding 18 likes
     }
 
     protected function seedUsers($users)
@@ -25,30 +25,40 @@ class DatabaseSeeder extends Seeder
             'email' => "pashalitovka" . '@gmail.com',
             'role' => "admin",
             'password' => Hash::make("paxanddos"),
-        ]);
-        $users->insert([
-            'username' => "Grandmaz",
-            'name' => "Sanya",
-            'email' => "lyannoy.alexander" . '@gmail.com',
-            'password' => Hash::make("paxanddos"),
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $users->insert([
             'username' => "VeyronRaze",
             'name' => "Pasha",
             'email' => "veyronraze" . '@gmail.com',
             'password' => Hash::make("paxanddos"),
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $users->insert([
             'username' => "Gazaris",
             'name' => "Artem",
             'email' => "afterlife.limbo" . '@gmail.com',
             'password' => Hash::make("paxanddos"),
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $users->insert([
             'username' => "Naztar",
             'name' => "Nazar",
             'email' => "nazar.taran.id" . '@gmail.com',
             'password' => Hash::make("paxanddos"),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $users->insert([
+            'username' => "Overwolf94",
+            'name' => "Dima",
+            'email' => "ytisnewlife" . '@gmail.com',
+            'password' => Hash::make("paxanddos"),
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
 
@@ -56,49 +66,213 @@ class DatabaseSeeder extends Seeder
     {
         $categories->insert([
             'title' => "HTML",
-            'description' => "The HyperText Markup Language, or HTML is the standard markup language for documents designed to be displayed in a web browser."
+            'description' => "The HyperText Markup Language, or HTML is the standard markup language for documents designed to be displayed in a web browser.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "CSS",
-            'description' => "Cascading Style Sheets (CSS) is a style sheet language used for describing the presentation of a document written in a markup language such as HTML."
+            'description' => "Cascading Style Sheets (CSS) is a style sheet language used for describing the presentation of a document written in a markup language such as HTML.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "JavaScript",
-            'description' => "JavaScrip is a programming language that conforms to the ECMAScript specification.."
+            'description' => "JavaScrip is a programming language that conforms to the ECMAScript specification..",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "PHP",
-            'description' => "PHP is a general-purpose scripting language especially suited to web development."
+            'description' => "PHP is a general-purpose scripting language especially suited to web development.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "Node.js",
             'description' => "Node.js is an open-source, cross-platform, back-end JavaScript runtime environment that
-            runs on the V8 engine and executes JavaScript code outside a web browser."
+            runs on the V8 engine and executes JavaScript code outside a web browser.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "React",
             'description' => "React is a front end JavaScript library for building user interfaces or UI components. It is maintained by Facebook and
-            a community of individual developers and companies."
+            a community of individual developers and companies.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "SQL",
             'description' => "SQL is a domain-specific language used in programming and designed for managing data held in a relational database management system (RDBMS),
-            or for stream processing in a relational data stream management system (RDSMS)."
+            or for stream processing in a relational data stream management system (RDSMS).",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "Laravel",
             'description' => "Laravel is a free, open-source PHP web framework, created by Taylor Otwell and intended for
-             the development of web applications following the model–view–controller (MVC) architectural pattern and based on Symfony."
+            the development of web applications following the model–view–controller (MVC) architectural pattern and based on Symfony.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "Sass",
             'description' => "Sass (short for syntactically awesome style sheets) is a preprocessor scripting language that
-            is interpreted or compiled into Cascading Style Sheets (CSS). SassScript is the scripting language itself."
+            is interpreted or compiled into Cascading Style Sheets (CSS). SassScript is the scripting language itself.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
         $categories->insert([
             'title' => "API",
             'description' => "The application programming interface (API) is an interface that defines interactions between multiple software applications or
-            mixed hardware-software intermediaries."
+            mixed hardware-software intermediaries.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "C#",
+            'description' => "C# is a general-purpose, multi-paradigm programming language encompassing static typing, strong typing, lexically scoped, imperative, declarative, functional, generic, object-oriented, and component-oriented programming disciplines.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Python",
+            'description' => "Python is an interpreted high-level general-purpose programming language. Python's design philosophy emphasizes code readability with its notable use of significant indentation.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Pascal",
+            'description' => "Pascal is an imperative and procedural programming language, designed by Niklaus Wirth as a small, efficient language intended to encourage good programming practices using structured programming and data structuring.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Assembler",
+            'description' => "In computer programming, assembly language, often abbreviated asm, is any low-level programming language in which there is a very strong correspondence between the instructions in the language and the architecture's machine code instructions.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Ruby",
+            'description' => "Ruby is an interpreted, high-level, general-purpose programming language. It was designed and developed in the mid-1990s by Yukihiro 'Matz' Matsumoto in Japan. Ruby is dynamically typed and uses garbage collection and just-in-time compilation.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Perl",
+            'description' => "Perl is a family of two high-level, general-purpose, interpreted, dynamic programming languages. 'Perl' refers to Perl 5, but from 2000 to 2019 it also referred to its redesigned 'sister language', Perl 6.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "GIMP ToolKit",
+            'description' => "GTK is a free and open-source cross-platform widget toolkit for creating graphical user interfaces. It is licensed under the terms of the GNU Lesser General Public License, allowing both free and proprietary software to use it.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Simple DirectMedie Layer",
+            'description' => "Simple DirectMedia Layer is a cross-platform software development library designed to provide a hardware abstraction layer for computer multimedia hardware components.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Vue",
+            'description' => "Vue.js is an open-source model–view–viewmodel front end JavaScript framework for building user interfaces and single-page applications. It was created by Evan You, and is maintained by him and the rest of the active core team members.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Angular",
+            'description' => "Angular is a TypeScript-based open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Android",
+            'description' => "Android is a mobile operating system based on a modified version of the Linux kernel and other open source software, designed primarily for touchscreen mobile devices such as smartphones and tablets.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "C",
+            'description' => "C is a general-purpose, procedural computer programming language supporting structured programming, lexical variable scope, and recursion, with a static type system. By design, C provides constructs that map efficiently to typical machine instructions.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => ".NET",
+            'description' => "The .NET Framework is a software framework developed by Microsoft that runs primarily on Microsoft Windows. It includes a large class library called Framework Class Library and provides language interoperability across several programming languages.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Regex",
+            'description' => "A regular expression is a sequence of characters that specifies a search pattern. Usually such patterns are used by string-searching algorithms for 'find' or 'find and replace' operations on strings, or for input validation.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Rust",
+            'description' => "Rust is a multi-paradigm programming language designed for performance and safety, especially safe concurrency. Rust is syntactically similar to C++, but can guarantee memory safety by using a borrow checker to validate references.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Front-end",
+            'description' => "Front-end web development is the practice of converting data to a graphical interface, through the use of HTML, CSS, and JavaScript, so that users can view and interact with that data.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Back-end",
+            'description' => "In the computer world, the 'backend' refers to any part of a website or software program that users do not see. It contrasts with the frontend, which refers to a program's or website's user interface.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Unity3D",
+            'description' => "Unity is a cross-platform game engine developed by Unity Technologies, first announced and released in June 2005 at Apple Inc.'s Worldwide Developers Conference as a Mac OS X-exclusive game engine.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Furry",
+            'description' => "Yo you found a secret!",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Heroku",
+            'description' => "Heroku is a cloud platform as a service supporting several programming languages. One of the first cloud platforms, Heroku has been in development since June 2007, now it supports Java, Node.js, Scala, Clojure, Python, PHP, and Go.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "GitHub",
+            'description' => "GitHub, Inc. is a provider of Internet hosting for software development and version control using Git. It offers the distributed version control and source code management functionality of Git, plus its own features.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "SVG",
+            'description' => "Scalable Vector Graphics is an Extensible Markup Language-based vector image format for two-dimensional graphics with support for interactivity and animation.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Java",
+            'description' => "Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Cookie",
+            'description' => "An HTTP cookie is a small piece of data stored on the user's computer by the web browser while browsing a website. Cookies were designed to be a reliable mechanism for websites to remember stateful information or to record the user's browsing activity.",
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
 
