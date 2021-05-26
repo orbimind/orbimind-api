@@ -20,4 +20,8 @@ class Categories extends Model
         'title' => 'string',
         'description' => 'string'
     ];
+    public function posts()
+    {
+        return $this->belongsToMany(Posts::class);
+    }
 }

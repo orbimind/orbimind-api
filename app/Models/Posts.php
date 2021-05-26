@@ -35,4 +35,8 @@ class Posts extends Model
     {
         return $this->hasMany(Comments::class);
     }
+    public function categories()
+    {
+        return $this->hasMany(Categories::class);
+    }
 }

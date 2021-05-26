@@ -10,4 +10,8 @@ class CategoriesFilter extends QueryFilter
     {
         return $this->where('title', 'LIKE', '%' . $value . '%');
     }
+    public function limit(int $value)
+    {
+        return $this->take($value)->get();
+    }
 }

@@ -101,7 +101,7 @@ class CommentsController extends Controller
                 'post_id' => $post_id,
                 'content' => $request->input('content')
             ]);
-            Handler::sendEmailNotifications($comment);
+            Handler::sendEmailNotifications($comment, $request->header('referer'));
 
             return $comment;
         } catch (\Exception $e) {

@@ -106,7 +106,7 @@ class Handler extends Model
         User::where('id', $user_id)->update(array('rating' => $new));
     }
 
-    static public function sendEmailNotifications($data)
+    static public function sendEmailNotifications($data, $referer)
     {
         $data = json_decode($data);
         $recepients = Subscription::where('post_id', (int)$data->post_id)->get();
@@ -115,7 +115,8 @@ class Handler extends Model
             'user' => [],
             'author' => User::find((int)$data->user_id)->username,
             'post' => Posts::find((int)$data->post_id)->title,
-            'content' => (string)$data->content
+            'content' => (string)$data->content,
+            'unsubsribe' => $referer . "post/" . (int)$data->post_id
         ];
         foreach ($recepients as $recepient) {
             $user = User::find($recepient->user_id);

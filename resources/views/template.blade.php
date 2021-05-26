@@ -4,9 +4,9 @@
         <meta charset="UTF-8" />
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Welcome to StackOverflow - Question and answer service for professional and enthusiast programmers." />
-        <meta name="keywords" content="PAXANDDOS, Paul Litovka, PXDD, UCODE, Full Stack, HTML, CSS, JavaScript, StackOverflow" />
-        <meta name="theme-color" content="#7000C8" />
+        <meta name="description" content="Orbimind - where great minds are in the same orbit." />
+        <meta name="keywords" content="PAXANDDOS, Paul Litovka, PXDD, UCODE, Full Stack, HTML, CSS, JavaScript, StackOverflow, Orbimind" />
+        <meta name="theme-color" content="#7c6aef" />
         <meta name="author" content="Paul Litovka" />
         <meta name="owner" content="Paul Litovka" />
         <meta name="copyright" content="Paul Litovka" />
@@ -26,13 +26,13 @@
         <meta http-equiv="pragma" content="no-cache" />
         <meta http-equiv="cache-control" content="no-cache" />
 
-        <title id="pageTitle">uStackOverflow</title>
+        <title id="pageTitle">Orbimind</title>
 
         <link rel="stylesheet" href="/assets/css/style.css" type="text/css" />
 
         <script src="/assets/js/script.js" defer type="text/JavaScript"></script>
     </head>
-    <body class="antialiased">
+    <body class="antialiased" style="margin: 0; padding: 0;">
         @yield('body')
     </body>
 </html>

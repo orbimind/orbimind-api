@@ -4,7 +4,7 @@ width: 100%;">
     <section style="display: block;
     align-items: center;
     height: 100px;
-    background-color: #0078D4;">
+    background-color: #7c6aef;">
         <h1 style="color: white;
         text-align: center;
         padding: 40px 0;
@@ -21,7 +21,7 @@ width: 100%;">
     <section style="display: block;
     align-items: center;
     padding: 10px 0;
-    background-color:#F0F0F0;">
-        <p style="font-family: Poppins, Arial, Helvetica; text-align:center;">You're receiving this message because a you are subscribed to email notifications about this post. You don't need to reply to it.<br>Unsubscribe<br>USOF system<br>Copyright © 2021 Paul Litovka. All rights reserved.</p>
+    background-color:#f5f9ff;">
+        <p style="font-family: Poppins, Arial, Helvetica; text-align:center;">You're receiving this message because a you are subscribed to email notifications about this post. You don't need to reply to it.<br><a href="{{$unsubsribe}}">Unsubscribe</a><br>Orbimind<br>Copyright © 2021 Paul Litovka. All rights reserved.</p>
     </section>
 </main>
