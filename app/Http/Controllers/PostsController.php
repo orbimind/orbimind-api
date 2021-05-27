@@ -132,10 +132,10 @@ class PostsController extends Controller
             ]);
         }
 
-        foreach ($faves as $key) {
+        foreach ($faves as $key)
             if ($key == $post_id)
                 return $this->removeFromFaves($post_id);
-        }
+
         array_push($faves, $post_id);
         \App\Models\User::find($this->user->id)->update(['faves' => $faves]);
 

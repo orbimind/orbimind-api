@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 64)->unique()->charset('utf8mb4')->collation('utf8mb4_general_ci');
             $table->string('image')->default('default_orbimind_H265P.jpeg');
             $table->json('faves')->nullable();
+            $table->json('subs')->nullable();
             $table->integer('rating')->default(0);
             $table->enum('role', ['user', 'admin'])->default('user')->charset('latin1')->collation('latin1_general_ci');
 

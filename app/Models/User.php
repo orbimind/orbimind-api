@@ -18,6 +18,7 @@ class User extends Authenticable implements JWTSubject
         'role',
         'image',
         'faves',
+        'subs',
         'email'
     ];
 
@@ -33,6 +34,7 @@ class User extends Authenticable implements JWTSubject
         'role' => 'string',
         'image' => 'string',
         'faves' => 'array',
+        'subs' => 'array',
         'email' => 'string'
     ];
 

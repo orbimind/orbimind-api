@@ -25,8 +25,26 @@ class SubscriptionController extends Controller
                 'message' => 'You can not subscribe to this post'
             ], 401);
 
-        if (Subscription::where('post_id', $post_id)->where('user_id', $this->user->id)->first())
-            return $this->removeSubscription($post_id);
+        $subs = $this->user->subs;
+        if ($subs == null) {
+            $subs = array();
+            array_push($subs, $post_id);
+            \App\Models\User::find($this->user->id)->update(['subs' => $subs]);
+            return response([
+                'message' => 'Subscription was successfully created',
+                'data' => Subscription::create([
+                    'user_id' => $this->user->id,
+                    'post_id' => $post_id
+                ])
+            ]);
+        }
+
+        foreach ($subs as $key)
+            if ($key == $post_id)
+                return $this->removeSubscription($post_id);
+
+        array_push($subs, $post_id);
+        \App\Models\User::find($this->user->id)->update(['subs' => $subs]);
 
         return response([
             'message' => 'Subscription was successfully created',
@@ -44,13 +62,25 @@ class SubscriptionController extends Controller
                 'message' => 'This post does not exist'
             ], 404);
 
-        if (Subscription::where('post_id', $post_id)->where('user_id', $this->user->id)->delete())
-            return response([
-                'message' => 'Subscription was successfully deleted'
-            ]);
-        else
+        if (!$subs = $this->user->subs)
             return response([
                 'message' => 'No subscriptions found'
-            ]);
+            ], 404);
+
+        $result = array();
+        foreach ($subs as $key) {
+            if ($key == $post_id)
+                continue;
+            array_push($result, (int)$key);
+        }
+        if ($result == [])
+            $result = null;
+
+        \App\Models\User::find($this->user->id)->update(['subs' => $result]);
+
+        Subscription::where('post_id', $post_id)->where('user_id', $this->user->id)->delete();
+        return response([
+            'message' => 'Subscription was successfully deleted'
+        ]);
     }
 }
