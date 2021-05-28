@@ -168,7 +168,7 @@ class PostsController extends Controller
         \App\Models\User::find($this->user->id)->update(['faves' => $result]);
 
         return response([
-            'message' => 'Post successfully removed from favorites'
+            'message' => 'Post successfully deleted from favorites'
         ]);
     }
 }
