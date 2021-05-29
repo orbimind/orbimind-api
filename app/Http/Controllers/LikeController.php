@@ -26,10 +26,15 @@ class LikeController extends Controller
 
     public function showPostLikes(int $post_id)
     {
+        if (!Handler::postExists($post_id))
+            return response()->json([
+                'message' => 'This post does not exist!'
+            ], 404);
+
         if (!$data = Like::where('post_id', $post_id)->get()->all())
             return response([
-                'message' => 'Invalid post or no likes'
-            ], 404);
+                'message' => 'No likes'
+            ]);
 
         return LikeResource::collection($data);
     }
@@ -41,8 +46,22 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (Handler::duplicateLikeOnPost($this->user->id, $post_id))
-                return $this->deletePostLike($request, $post_id);
+
+            $phase = ' created';
+            if (Handler::duplicateLikeOnPost($this->user->id, $post_id)) {
+                if ($request->input('type') == 'like' && Like::where('user_id', $this->user->id)->where('post_id', $post_id)->where('type', 'like')->first() === null) {
+                    $request->merge(['type' => 'dislike']);
+                    $this->deletePostLike($request, $post_id);
+                    $request->merge(['type' => 'like']);
+                    $phase = ' switched';
+                } else if ($request->input('type') == 'dislike' && Like::where('user_id', $this->user->id)->where('post_id', $post_id)->where('type', 'dislike')->first() === null) {
+                    $request->merge(['type' => 'like']);
+                    $this->deletePostLike($request, $post_id);
+                    $request->merge(['type' => 'dislike']);
+                    $phase = ' switched';
+                } else
+                    return $this->deletePostLike($request, $post_id);
+            }
 
             $data = [
                 'user_id' => $this->user->id,
@@ -56,7 +75,7 @@ class LikeController extends Controller
                 Handler::decreasePostRating($post_id);
 
             return response([
-                'message' => $request->input('type') . ' created',
+                'message' => $request->input('type') . $phase,
                 'data' => Like::create($data)
             ]);
         } catch (\Exception $e) {
@@ -99,7 +118,7 @@ class LikeController extends Controller
         if (!$data = Like::where('comment_id', $comment_id)->get()->all())
             return response([
                 'message' => 'Invalid comment or no likes'
-            ], 404);
+            ]);
 
         return LikeResource::collection($data);
     }
@@ -111,8 +130,22 @@ class LikeController extends Controller
                 return response()->json([
                     'message' => 'This post does not exist!'
                 ], 404);
-            if (Handler::duplicateLikeOnComment($this->user->id, $comment_id))
-                return $this->deleteCommentLike($request, $comment_id);
+
+            $phase = ' created';
+            if (Handler::duplicateLikeOnComment($this->user->id, $comment_id)) {
+                if ($request->input('type') == 'like' && Like::where('user_id', $this->user->id)->where('comment_id', $comment_id)->where('type', 'like')->first() === null) {
+                    $request->merge(['type' => 'dislike']);
+                    $this->deleteCommentLike($request, $comment_id);
+                    $request->merge(['type' => 'like']);
+                    $phase = ' switched';
+                } else if ($request->input('type') == 'dislike' && Like::where('user_id', $this->user->id)->where('comment_id', $comment_id)->where('type', 'dislike')->first() === null) {
+                    $request->merge(['type' => 'like']);
+                    $this->deleteCommentLike($request, $comment_id);
+                    $request->merge(['type' => 'dislike']);
+                    $phase = ' switched';
+                } else
+                    return $this->deleteCommentLike($request, $comment_id);
+            }
 
             $data = [
                 'user_id' => $this->user->id,
@@ -126,7 +159,7 @@ class LikeController extends Controller
                 Handler::decreaseCommentRating($comment_id);
 
             return response([
-                'message' => $request->input('type') . ' created',
+                'message' => $request->input('type') . $phase,
                 'data' => Like::create($data)
             ]);
         } catch (\Exception $e) {

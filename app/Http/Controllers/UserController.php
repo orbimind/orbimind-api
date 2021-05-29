@@ -6,9 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UploadAvatarRequest;
-use App\Http\Requests\DownloadAvatarRequest;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Models\Handler;
 use App\Models\User;
 use App\Models\Posts;
 

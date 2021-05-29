@@ -79,7 +79,7 @@ class CommentsController extends Controller
         if (!$data =  Comments::where('post_id', $post_id)->get()->toArray())
             return response([
                 'message' => 'No comments'
-            ], 404);
+            ]);
 
         return $data;
     }
