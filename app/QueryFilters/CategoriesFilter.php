@@ -14,4 +14,8 @@ class CategoriesFilter extends QueryFilter
     {
         return $this->take($value)->get();
     }
+    public function random(int $value)
+    {
+        return $this->inRandomOrder()->limit($value)->get();
+    }
 }
