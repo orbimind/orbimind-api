@@ -75,9 +75,9 @@ class CategoriesController extends Controller
 
             $result = [];
             foreach ($data as $value) {
-                if (!$title = Categories::find($value)->title)
+                if (!$object = Categories::find($value))
                     continue;
-                array_push($result, $title);
+                array_push($result, ['id' => $object->id, 'title' =>  $object->title]);
             }
 
             return response($result);
