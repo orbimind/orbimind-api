@@ -36,7 +36,7 @@ class AuthController extends Controller
     {
         try {
             $credentials = $request->only(['username', 'password']);
-            if (JWTAuth::attempt($credentials, ['exp' => \Carbon\Carbon::now()->addDays(2)->timestamp])) {
+            if (JWTAuth::attempt($credentials)) {
                 $user = JWTAuth::user();
                 $token = JWTAuth::attempt($credentials);
 
