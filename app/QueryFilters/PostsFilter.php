@@ -33,11 +33,16 @@ class PostsFilter extends QueryFilter
         return $this->whereJsonContains('category_id', $category_ids);
     }
 
-    public function status(bool $value)
+    public function status(mixed $value)
     {
         if ($value == 'null')
             return $this;
-        return $this->where('status', $value);
+        else if ($value == true || $value == 'true' || $value == 1)
+            return $this->where('status', true);
+        else if ($value == false || $value == 'false' || $value == 0)
+            return $this->where('status', false);
+        else
+            return $this->where('status', $value);
     }
 
     public function startDate($start)
