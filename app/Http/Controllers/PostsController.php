@@ -26,10 +26,6 @@ class PostsController extends Controller
     {
         $posts = Posts::filter($filter)->get();
 
-        if (!$this->user) {
-            return PostsResource::collection($posts->where('status', true));
-        }
-
         return PostsResource::collection($posts);
     }
 
@@ -59,12 +55,6 @@ class PostsController extends Controller
             ], 404);
         }
         $data = Posts::find($id);
-
-        if (!$this->user && $data->status == false) {
-            return response([
-                'message' => 'You can not view this post!'
-            ], 403);
-        }
 
         return $data;
     }
