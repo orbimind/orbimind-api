@@ -274,6 +274,120 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        $categories->insert([
+            'title' => "Webpack",
+            'description' => "An open-source JavaScript module bundler. It is made primarily for JavaScript, but it can transform front-end assets such as HTML, CSS, and images if the corresponding loaders are included.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "iOS",
+            'description' => "iOS is a mobile operating system created and developed by Apple Inc. exclusively for its hardware. It is the operating system that powers many of the company's mobile devices.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Swift",
+            'description' => "Swift is a general-purpose, multi-paradigm, compiled programming language developed by Apple Inc. and the open-source community, first released in 2014.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Babel",
+            'description' => "Babel is a free and open-source JavaScript transcompiler that is mainly used to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Django",
+            'description' => "Django is a Python-based free and open-source web framework that follows the model–template–views architectural pattern.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Django",
+            'description' => "Django is a Python-based free and open-source web framework that follows the model–template–views architectural pattern.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Windows",
+            'description' => "Microsoft Windows, commonly referred to as Windows, is a group of several proprietary graphical operating system families.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Linux",
+            'description' => "Django is a Python-based free and open-source web framework that follows the model–template–views architectural pattern.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "MacOS",
+            'description' => "Linux is a family of open-source Unix-like operating systems based on the Linux kernel.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Spring",
+            'description' => "The Spring Framework is an application framework and inversion of control container for the Java platform.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Bootstrap",
+            'description' => "Bootstrap is a free and open-source CSS framework directed at responsive, mobile-first front-end web development.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Docker",
+            'description' => "Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Nginx",
+            'description' => "Nginx, stylized as NGINX, nginx or NginX, is a web server that can also be used as a reverse proxy, load balancer, mail proxy and HTTP cache.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Apache",
+            'description' => "The Apache HTTP Server, colloquially called Apache, is a free and open-source cross-platform web server software.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Git",
+            'description' => "Git is software for tracking changes in any set of files, usually used for coordinating work among programmers collaboratively developing source code during software development.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "GitLab",
+            'description' => "GitLab is a web-based DevOps lifecycle tool that provides a Git-repository manager providing wiki, issue-tracking and continuous integration.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Azure",
+            'description' => "Microsoft Azure, commonly referred to as Azure, is a cloud computing service created by Microsoft for building, testing, deploying, and managing applications.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "MongoDB",
+            'description' => "MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Homebrew",
+            'description' => "Homebrew is a free and open-source software package management system that simplifies the installation of software on Apple's operating system macOS as well as Linux.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 
     protected function seedPosts($posts)

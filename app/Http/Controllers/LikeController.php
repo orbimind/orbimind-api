@@ -128,7 +128,7 @@ class LikeController extends Controller
         try {
             if (!Handler::commentExists($comment_id))
                 return response()->json([
-                    'message' => 'This post does not exist!'
+                    'message' => 'This comment does not exist!'
                 ], 404);
 
             $phase = ' created';

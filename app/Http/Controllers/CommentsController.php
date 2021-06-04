@@ -110,4 +110,40 @@ class CommentsController extends Controller
             ]);
         }
     }
+
+    public function setBestComment(int $comment_id)
+    {
+        if (!$comment = Comments::find($comment_id))
+            return response()->json([
+                'message' => 'This comment does not exist!'
+            ], 404);
+
+        $post = \App\Models\Posts::find($comment->post_id);
+        if (!Handler::authenticatedAsAdmin($this->user) && $post->user_id != $this->user->id)
+            return response([
+                'message' => 'You can not update this comment!'
+            ], 403);
+
+        if ($comment->best == true) {
+            $comment->update(['best' => false]);
+            $post->update(['status' => true]);
+
+            return response([
+                'message' => 'The mark has been removed.'
+            ]);
+        }
+
+        foreach (Comments::where('post_id', $post->id)->get() as $comment)
+            if ($comment->best == true && $comment->id != $comment_id)
+                return response([
+                    'message' => 'There is already best comment on this post!'
+                ], 403);
+
+        $comment->update(['best' => true]);
+        $post->update(['status' => false]);
+
+        return response([
+            'message' => 'Comment checked as best.'
+        ]);
+    }
 }

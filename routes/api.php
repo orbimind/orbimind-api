@@ -65,6 +65,7 @@ Route::prefix('comments')->group(function () {
     Route::get('/{comment_id}/like', 'App\Http\Controllers\LikeController@showCommentLikes');
 });
 Route::prefix('comments')->middleware('auth')->group(function () {
+    Route::get('/{comment_id}/best', 'App\Http\Controllers\CommentsController@setBestComment');
     Route::post('/{comment_id}/like', 'App\Http\Controllers\LikeController@createCommentLike');
     Route::delete('/{comment_id}/like', 'App\Http\Controllers\LikeController@deleteCommentLike');
 });
