@@ -133,8 +133,8 @@ class CommentsController extends Controller
             ]);
         }
 
-        foreach (Comments::where('post_id', $post->id)->get() as $comment)
-            if ($comment->best == true && $comment->id != $comment_id)
+        foreach (Comments::where('post_id', $post->id)->get() as $comment_element)
+            if ($comment_element->best == true && $comment_element->id != $comment_id)
                 return response([
                     'message' => 'There is already best comment on this post!'
                 ], 403);

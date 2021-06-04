@@ -388,6 +388,18 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        $categories->insert([
+            'title' => "Homebrew",
+            'description' => "Homebrew is a free and open-source software package management system that simplifies the installation of software on Apple's operating system macOS as well as Linux.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $categories->insert([
+            'title' => "Go",
+            'description' => "Go is a statically typed, compiled programming language designed at Google by Robert Griesemer, Rob Pike, and Ken Thompson.",
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 
     protected function seedPosts($posts)
