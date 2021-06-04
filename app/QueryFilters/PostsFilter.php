@@ -35,6 +35,8 @@ class PostsFilter extends QueryFilter
 
     public function status(bool $value)
     {
+        if ($value == 'null')
+            return $this;
         return $this->where('status', $value);
     }
 
