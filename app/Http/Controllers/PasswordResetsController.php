@@ -33,7 +33,7 @@ class PasswordResetsController extends Controller
                 'name' => $user->name,
                 'role' => $user->role,
                 'resetLink' => $protocol . '//' . $host  . 'forgot-password/' . $token,
-                'removeLink' => $protocol . '//' . $host  . 'forgot-password/' . $token . '/remove'
+                'removeLink' => 'https://orbimind.herokuapp.com/api/auth/password-reset/' . $token . '/remove'
             ];
             Mail::send('forgot', $data, function ($message) use ($user) {
                 $message->to($user->email);

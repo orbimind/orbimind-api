@@ -25,14 +25,15 @@
 </p>
 <h2 id="downloads">:inbox_tray: Downloads</h2>
 <ul>
-    <li><a href="https://github.com/PAXANDDOS/orbimind-api/releases/download/1.2/orbimind-api-v1.2.zip">v1.2 Latest stable</a></li>
-    <li><a href="https://github.com/PAXANDDOS/orbimind-api/releases/tag/1.0">v1.0 UCODE-version of Orbimind</a></li>
+    <li><a href="https://github.com/PAXANDDOS/orbimind-api/releases/tag/2.0">v2.0 Latest</a> 一 <a href="https://github.com/PAXANDDOS/orbimind-api/releases/download/2.0/v2.0-orbimind-api.zip"><b>Download</b></a></li>
+    <li><a href="https://github.com/PAXANDDOS/orbimind-api/releases/tag/1.2">v1.2</a> 一 <a href="https://github.com/PAXANDDOS/orbimind-api/releases/download/1.2/orbimind-api-v1.2.zip"><b>Download</b></a></li>
+    <li><a href="https://github.com/PAXANDDOS/orbimind-api/releases/tag/1.0">v1.0</a> 一 <a href="https://github.com/PAXANDDOS/orbimind-api/archive/refs/tags/1.0.zip"><b>Download</b></a></li>
 </ul>
 
 <h2 id="req">:anchor: Requirements</h2>
 <ul>
-    <li>PHP 8.x</li>
-    <li>MySQL 6.x</li>
+    <li>PHP 8.0.6</li>
+    <li>MySQL 6.x / MariaDB 10.x</li>
     <li>Composer 2.x</li>
 </ul>
 <p>You can easily install those via Homebrew:<br>
@@ -56,10 +57,12 @@
 </ol>
 
 <h2>:key: Using the API</h2>
-<p>If you want to use my API directly, without interacting with orbimind-react, you are very welcome!</p>
+<p>Web application Orbimind has been released! Check out <a href="https://github.com/PAXANDDOS/orbimind-react">orbimind-react</a> for more info!
+<p>But if you want to use my API directly, without interacting with orbimind-react, you are very welcome!</p>
 <p>
 You can send API requests directly from your JS file using the fetch function, or if you wanna just test some things you can use Insomnia or Postman! If so, you probably should use Insomnia because I have prepared <a href="https://github.com/PAXANDDOS/orbimind-api/releases/download/1.2/Insomnia_Orbimind-public.json">a collection file just for you!</a><br>
-If you are using JavaScript, you should set request header properties <code>Content-Type</code> and <code>Accept</code> to <code>application/json</code> and you are all set. API host is <code><a href="https://orbimind.herokuapp.com">https://orbimind.herokuapp.com</a></code>
+If you are using JavaScript, you should set request header properties <code>Content-Type</code> and <code>Accept</code> to <code>application/json</code> and you are all set.
+<p>Public version is hosted at <code><a href="https://orbimind.herokuapp.com">https://orbimind.herokuapp.com</a></code></p>
 </p>
 <p>
     <b>Here's list of possible user API requests:</b>
@@ -296,9 +299,82 @@ If you are using JavaScript, you should set request header properties <code>Cont
                 <td><code>DELETE - /api/comments/{comment_id}/like</code></td>
                 <td>token, comment_id, json data</td>
             </tr>
+            <tr>
+                <td>Mark or unmark comment as best on post</td>
+                <td><code>GET - /api/comments/{comment_id}/best</code></td>
+                <td>token, comment_id</td>
+            </tr>
         </table>
     </p>
+    <h3>Also it's possible to sort and filter different requests:</h3>
+    <p><b>Posts module</b>
+        <br>
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td><b>Applied filters</b></td>
+                    <td><b>Description</b></td>
+                </tr>
+                <tr>
+                    <td>?search={string}</td>
+                    <td>Search for posts that contains {string} in their title or content. {string} can be a word or even a letter.</td>
+                </tr>
+                <tr>
+                    <td>?user={username}</td>
+                    <td>Search for posts that was created by {username}.</td>
+                </tr>
+                <tr>
+                    <td>?category={string}</td>
+                    <td>Search for posts that was contains {string} categories. {string} can look like `HTML,JavaScript,React`</td>
+                </tr>
+                <tr>
+                    <td>?status={integer}</td>
+                    <td>Search for posts that was has status true or false. {integer} can be 0 or 1</td>
+                </tr>
+                <tr>
+                    <td>?startDate={date}</td>
+                    <td>Search for posts that was was created after {date}. Can be combined with endDate to create a date interval.</td>
+                </tr>
+                <tr>
+                    <td>?endDate={int}</td>
+                    <td>Search for posts that was was created before {date}. Can be combined with startDate to create a date interval.</td>
+                </tr>
+                <tr>
+                    <td>?order={string}</td>
+                    <td>Get posts ordered by {string}. {string} should look like: date$desc, date$asc, rating$asc, rating$desc</td>
+                </tr>
+                <tr>
+                    <td>?page={integer}</td>
+                    <td>Search for posts that are displayed on {integer} page. Each page contains 10 posts.</td>
+                </tr>
+            </thead>
+        </table>
+     </p>
+     <p><b>Categories module</b>
+        <br>
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td><b>Applied filters</b></td>
+                    <td><b>Description</b></td>
+                </tr>
+                <tr>
+                    <td>?search={string}</td>
+                    <td>Search for categories that contains {string} in their title. {string} can be a word or even a letter.</td>
+                </tr>
+                <tr>
+                    <td>?limit={int}</td>
+                    <td>Get {int} quantity of categories.</td>
+                </tr>
+                <tr>
+                    <td>?random={int}</td>
+                    <td>Get random {int} quantity of categories.</td>
+                </tr>
+            </thead>
+        </table>
+     </p>
 </p>
 
 <h2>:fox_face: Have a great day!</h2>
-<p><b><a href="https://github.com/PAXANDDOS?tab=repositories">Check out my other projects</a> and <a href="https://paxanddos.github.io">visit my website</a>!</b></p>
+<p><b>Don't forget to check out <a href="https://github.com/PAXANDDOS?tab=repositories">Orbimind with React!</a></b></p>
+<p><b><a href="https://github.com/PAXANDDOS?tab=repositories">Also check out my other projects</a> and <a href="https://paxanddos.github.io">visit my website</a>!</b></p>
