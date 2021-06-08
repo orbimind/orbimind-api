@@ -305,12 +305,6 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now()
         ]);
         $categories->insert([
-            'title' => "Django",
-            'description' => "Django is a Python-based free and open-source web framework that follows the model–template–views architectural pattern.",
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-        $categories->insert([
             'title' => "Windows",
             'description' => "Microsoft Windows, commonly referred to as Windows, is a group of several proprietary graphical operating system families.",
             'created_at' => now(),

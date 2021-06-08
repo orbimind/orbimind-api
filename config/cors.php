@@ -1,34 +1,12 @@
 <?php
 
 return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
-    */
-
     'paths' => ['api/*', 'fruitcake/laravel-cors'],
-
-    'allowed_methods' => ['*'],
-
+    'allowed_methods' => ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     'allowed_origins' => ['*'],
-
     'allowed_origins_patterns' => [],
-
     'allowed_headers' => ['Origin', 'X-Requested-With', 'Authorization', 'Content-Type', 'Accept', 'x-custom-header'],
-
     'exposed_headers' => ['x-custom-response-header'],
-
     'max_age' => 60,
-
-    'supports_credentials' => true,
-
+    'supports_credentials' => true
 ];

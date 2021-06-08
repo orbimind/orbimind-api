@@ -9,6 +9,7 @@ class PostsFilter extends QueryFilter
 {
     public function search(string $value)
     {
+        if ($value == 'null') return $this;
         return $this->where('title', 'LIKE', '%' . $value . '%')->orWhere('content', 'LIKE', '%' . $value . '%');
     }
 

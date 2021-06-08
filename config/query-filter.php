@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'default-filters-source' => null,
+    'default-filters-source' => null
 ];
