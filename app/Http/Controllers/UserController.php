@@ -98,7 +98,14 @@ class UserController extends Controller
                     'message' => 'User does not exist!'
                 ], 404);
 
-            $user->update($request->only(['username', 'name', 'email', 'password']));
+            $data = [
+                'username' => $request->input('username'),
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => \Illuminate\Support\Facades\Hash::make($request->input('password'))
+            ];
+            $user->update($data);
+            
             return response([
                 'message' => 'Your profile was updated.',
                 'user' =>  $user
@@ -113,20 +120,7 @@ class UserController extends Controller
         if ($request->file('image')) {
             $user = User::find(JWTAuth::user(JWTAuth::getToken())->id);
 
-            if (
-                \Illuminate\Support\Facades\Storage::disk('s3')->exists('avatars/' . $user->image)
-                && $user->image != 'avatar1_orbimind_H265P.png'
-                && $user->image != 'avatar2_orbimind_H265P.png'
-                && $user->image != 'avatar3_orbimind_H265P.png'
-                && $user->image != 'avatar4_orbimind_H265P.png'
-                && $user->image != 'avatar5_orbimind_H265P.png'
-                && $user->image != 'avatar6_orbimind_H265P.png'
-                && $user->image != 'avatar7_orbimind_H265P.png'
-                && $user->image != 'avatar8_orbimind_H265P.png'
-                && $user->image != 'avatar9_orbimind_H265P.png'
-                && $user->image != 'avatar10_orbimind_H265P.png'
-                && $user->image != 'default_orbimind_H265P.jpeg'
-            )
+            if (\Illuminate\Support\Facades\Storage::disk('s3')->exists('avatars/' . $user->image) && !str_contains($user->image, 'orbimind_H265P'))
                 \Illuminate\Support\Facades\Storage::disk('s3')->delete('avatars/' . $user->image);
 
             $user->update([
