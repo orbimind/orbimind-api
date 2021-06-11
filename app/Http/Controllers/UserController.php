@@ -99,10 +99,10 @@ class UserController extends Controller
                 ], 404);
 
             $data = [
-                'username' => $request->input('username'),
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'password' => \Illuminate\Support\Facades\Hash::make($request->input('password'))
+                'username' => $request->input('username') ?: $user->username,
+                'name' => $request->input('name') ?: $user->name,
+                'email' => $request->input('email') ?: $user->email,
+                'password' => $request->input('password') ? \Illuminate\Support\Facades\Hash::make($request->input('password')) : $user->password
             ];
             $user->update($data);
             
