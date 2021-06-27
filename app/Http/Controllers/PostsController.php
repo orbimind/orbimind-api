@@ -73,7 +73,7 @@ class PostsController extends Controller
                 ], 403);
         }
 
-        $data->update($request->only(['title', 'content', 'category_id', 'status']));
+        $data->update($request->all();
         return $data;
     }
 
