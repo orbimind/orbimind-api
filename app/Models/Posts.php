@@ -16,6 +16,7 @@ class Posts extends Model
         'title',
         'content',
         'status',
+        'rating',
         'category_id'
     ];
 
@@ -24,6 +25,7 @@ class Posts extends Model
         'title' => 'string',
         'content' => 'string',
         'status' => 'bool',
+        'rating' => 'integer',
         'category_id' => 'array'
     ];
 
