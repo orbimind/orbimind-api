@@ -73,7 +73,7 @@ class PostsController extends Controller
                 ], 403);
         }
 
-        $data->update($request->all();
+        $data->update($request->all());
         return $data;
     }
 
