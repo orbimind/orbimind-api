@@ -60,7 +60,7 @@ class Handler extends Model
     {
         $current = (int)Posts::where('id', $post_id)->first()->rating;
         $new = $current + 1;
-        Posts::where('id', $post_id)->update(array('rating' => $new));
+        Posts::where('id', $post_id)->update(['rating' => $new]);
 
         $user_id = (int)Posts::where('id', $post_id)->first()->user_id;
         Handler::increaseUserRating($user_id);
@@ -69,7 +69,7 @@ class Handler extends Model
     {
         $current = (int)Posts::where('id', $post_id)->first()->rating;
         $new = $current - 1;
-        Posts::where('id', $post_id)->update(array('rating' => $new));
+        Posts::where('id', $post_id)->update(['rating' => $new]);
 
         $user_id = (int)Posts::where('id', $post_id)->first()->user_id;
         Handler::decreaseUserRating($user_id);
@@ -78,7 +78,7 @@ class Handler extends Model
     {
         $current = (int)Comments::where('id', $comment_id)->first()->rating;
         $new = $current + 1;
-        Comments::where('id', $comment_id)->update(array('rating' => $new));
+        Comments::where('id', $comment_id)->update(['rating' => $new]);
 
         $user_id = (int)Comments::where('id', $comment_id)->first()->user_id;
         Handler::increaseUserRating($user_id);
@@ -87,7 +87,7 @@ class Handler extends Model
     {
         $current = (int)Comments::where('id', $comment_id)->first()->rating;
         $new = $current - 1;
-        Comments::where('id', $comment_id)->update(array('rating' => $new));
+        Comments::where('id', $comment_id)->update(['rating' => $new]);
 
         $user_id = (int)Comments::where('id', $comment_id)->first()->user_id;
         Handler::decreaseUserRating($user_id);
@@ -97,13 +97,13 @@ class Handler extends Model
     {
         $current = (int)User::where('id', $user_id)->first()->rating;
         $new = $current + 1;
-        User::where('id', $user_id)->update(array('rating' => $new));
+        User::where('id', $user_id)->update(['rating' => $new]);
     }
     static public function decreaseUserRating($user_id)
     {
         $current = (int)User::where('id', $user_id)->first()->rating;
         $new = $current - 1;
-        User::where('id', $user_id)->update(array('rating' => $new));
+        User::where('id', $user_id)->update(['rating' => $new]);
     }
 
     static public function sendEmailNotifications($data, $referer)

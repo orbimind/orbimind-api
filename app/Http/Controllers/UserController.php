@@ -142,7 +142,7 @@ class UserController extends Controller
                 'message' => 'No favorites here'
             ], 404);
 
-        $result = array();
+        $result = [];
         foreach ($this->user->faves as $key) {
             if (!$post = Posts::find($key))
                 continue;
@@ -160,7 +160,7 @@ class UserController extends Controller
                 'message' => 'No favorites here'
             ], 404);
 
-        $result = array();
+        $result = [];
         foreach ($user->faves as $key) {
             if (!$post = Posts::find($key))
                 continue;

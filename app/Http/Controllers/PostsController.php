@@ -114,7 +114,7 @@ class PostsController extends Controller
 
         $faves = $this->user->faves;
         if ($faves == null) {
-            $faves = array();
+            $faves = [];
             array_push($faves, $post_id);
             \App\Models\User::find($this->user->id)->update(['faves' => $faves]);
             return response([
@@ -146,7 +146,7 @@ class PostsController extends Controller
                 'message' => 'Nothing to remove'
             ], 404);
 
-        $result = array();
+        $result = [];
         foreach ($faves as $key) {
             if ($key == $post_id)
                 continue;

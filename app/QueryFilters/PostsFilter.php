@@ -22,7 +22,7 @@ class PostsFilter extends QueryFilter
     public function category(string $value)
     {
         $categories = explode(',', $value);
-        $category_ids = array();
+        $category_ids = [];
         try {
             for ($i = 0; $i < count($categories); $i++) {
                 $id = DB::table('categories')->where('title', $categories[$i])->first()->id;

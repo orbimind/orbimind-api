@@ -27,7 +27,7 @@ class SubscriptionController extends Controller
 
         $subs = $this->user->subs;
         if ($subs == null) {
-            $subs = array();
+            $subs = [];
             array_push($subs, $post_id);
             \App\Models\User::find($this->user->id)->update(['subs' => $subs]);
             return response([
@@ -67,7 +67,7 @@ class SubscriptionController extends Controller
                 'message' => 'No subscriptions found'
             ], 404);
 
-        $result = array();
+        $result = [];
         foreach ($subs as $key) {
             if ($key == $post_id)
                 continue;
